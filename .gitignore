@@ -1,4 +1,4 @@
-.idea
+.idea/
 
 # Client
 .DS_Store
@@ -6,6 +6,7 @@
 /client/build
 /client/.svelte-kit
 /client/package
+/client/package-lock.json
 .env
 .env.*
 !.env.example
