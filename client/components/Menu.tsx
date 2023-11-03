@@ -1,33 +1,42 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import IconDiscover from 'icons/IconDiscover.tsx';
 import IconProfile from 'icons/IconProfile.tsx';
 import MenuButton from 'components/MenuButton.tsx';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 type PropsTypes = {
 
 };
 
 function Menu({}: PropsTypes) {
-    const [activeButton, setActiveButton] = useState(0);
+    const location = useLocation();
+    const currentPath = location.pathname;
+    const [activeButtonId, setActiveButtonId] = useState(currentPath);
+    const navigate = useNavigate();
 
-    function toggleButton(id: number) {
-        setActiveButton(id);
+    useEffect(() => {
+        setActiveButtonId(currentPath);
+    }, [currentPath]);
+
+    function toggleButton(path: string) {
+        if (path !== currentPath) {
+            navigate(path);
+        }
     }
 
-    let buttons = [
-        {id: 0, icon: <IconDiscover />, text: 'Просмотр', path: '/discover'},
-        {id: 1, icon: <IconProfile />, text: 'Профиль', path: '/profile'},
-    ];
+    let buttons = {
+        '/discover': {icon: <IconDiscover />, text: 'Просмотр'},
+        '/profile': {icon: <IconProfile />, text: 'Профиль'},
+    };
 
     return (
-        <footer className="flex fixed right-0 bottom-0 left-0 p-m rounded-t-global bg-white">
-            {buttons.map(({id, icon, text, path}) => <MenuButton
-                key={id}
+        <footer className="flex p-m rounded-t-global bg-white">
+            {Object.entries(buttons).map(([path, {icon, text}]) => <MenuButton
+                key={path}
                 icon={icon}
                 text={text}
-                active={id === activeButton}
-                path={path}
-                onClick={() => toggleButton(id)}
+                active={path === activeButtonId}
+                onClick={() => toggleButton(path)}
             />)}
         </footer>
     );

@@ -4,6 +4,7 @@ export default {
         './index.html',
         './src/**/*.{js,ts,jsx,tsx}',
         './components/**/*.{js,ts,jsx,tsx}',
+        './pages/**/*.{js,ts,jsx,tsx}',
     ],
     theme: {
         extend: {
@@ -36,6 +37,9 @@ export default {
             borderRadius: {
                 'global': '16px',
                 'block': '8px',
+            },
+            flex: {
+                'fill': '1 0 0',
             }
         },
     },

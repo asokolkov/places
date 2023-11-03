@@ -9,7 +9,8 @@
     "paths": {
       "src/*": ["src/*"],
       "components/*": ["components/*"],
-      "icons/*": ["icons/*"]
+      "icons/*": ["icons/*"],
+      "pages/*": ["pages/*"]
     },
     /* Bundler mode */
     "moduleResolution": "bundler",
@@ -25,6 +26,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "components", "icons"],
+  "include": ["src", "components", "icons", "pages"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

@@ -4,11 +4,11 @@ import Menu from 'components/Menu.tsx';
 
 function App() {
     return (
-        <>
+        <div className="flex flex-col h-full">
             <Header />
             <Outlet />
             <Menu />
-        </>
+        </div>
     );
 }
 

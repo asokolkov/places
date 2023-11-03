@@ -22,6 +22,6 @@
 body {
     margin: 0;
     display: flex;
-    width: 393px;
+    width: 100vw;
     min-height: 100vh;
 }

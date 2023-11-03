@@ -4,9 +4,9 @@ type PropsTypes = {
 
 function ProfilePage({}: PropsTypes) {
     return (
-        <>
-            Profile
-        </>
+        <div className="flex self-stretch flex-fill flex-col overflow-y-scroll">
+
+        </div>
     );
 }
 
