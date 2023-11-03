@@ -5,7 +5,6 @@
 @layer base {
     html {
         @apply text-black;
-        @apply bg-background;
         font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
     }
 }
@@ -22,6 +21,7 @@
 body {
     margin: 0;
     display: flex;
+    background-color: #F3F3F3;
     width: 100vw;
     min-height: 100vh;
 }

@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import MenuButton from 'components/MenuButton.tsx';
 import IconDiscover from 'icons/IconDiscover.tsx';
 import IconProfile from 'icons/IconProfile.tsx';
-import MenuButton from 'components/MenuButton.tsx';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 
 type PropsTypes = {
 
@@ -10,34 +10,33 @@ type PropsTypes = {
 
 function Menu({}: PropsTypes) {
     const location = useLocation();
-    const currentPath = location.pathname;
-    const [activeButtonId, setActiveButtonId] = useState(currentPath);
     const navigate = useNavigate();
+    const [currentRoute, setCurrentRoute] = useState(location.pathname);
 
     useEffect(() => {
-        setActiveButtonId(currentPath);
-    }, [currentPath]);
+        setCurrentRoute(location.pathname);
+    }, [location.pathname]);
 
-    function toggleButton(path: string) {
-        if (path !== currentPath) {
-            navigate(path);
+    function onClick(route: string) {
+        if (currentRoute !== route) {
+            navigate(route);
         }
     }
 
-    let buttons = {
-        '/discover': {icon: <IconDiscover />, text: 'Просмотр'},
-        '/profile': {icon: <IconProfile />, text: 'Профиль'},
-    };
-
     return (
         <footer className="flex p-m rounded-t-global bg-white">
-            {Object.entries(buttons).map(([path, {icon, text}]) => <MenuButton
-                key={path}
-                icon={icon}
-                text={text}
-                active={path === activeButtonId}
-                onClick={() => toggleButton(path)}
-            />)}
+            <MenuButton
+                icon={<IconDiscover />}
+                text="Просмотр"
+                active={currentRoute === '/discover'}
+                onClick={() => onClick('/discover')}
+            />
+            <MenuButton
+                icon={<IconProfile />}
+                text="Профиль"
+                active={currentRoute === '/profile'}
+                onClick={() => onClick('/profile')}
+            />
         </footer>
     );
 }

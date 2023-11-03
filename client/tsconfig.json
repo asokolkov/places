@@ -10,7 +10,9 @@
       "src/*": ["src/*"],
       "components/*": ["components/*"],
       "icons/*": ["icons/*"],
-      "pages/*": ["pages/*"]
+      "pages/*": ["pages/*"],
+      "contexts/*": ["contexts/*"],
+      "hooks/*": ["hooks/*"]
     },
     /* Bundler mode */
     "moduleResolution": "bundler",
@@ -26,6 +28,6 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "components", "icons", "pages"],
+  "include": ["src", "components", "icons", "pages", "contexts", "hooks"],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
