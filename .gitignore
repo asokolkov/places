@@ -15,3 +15,6 @@ client/package
 .output
 vite.config.js.timestamp-*
 vite.config.ts.timestamp-*
+
+# Server
+venv
