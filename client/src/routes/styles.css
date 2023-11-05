@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -6,6 +8,19 @@
     html {
         @apply text-black;
         font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    }
+}
+
+@layer utilities {
+    @variants responsive {
+        .no-scroll::-webkit-scrollbar {
+            display: none;
+        }
+
+        .no-scroll {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
     }
 }
 
