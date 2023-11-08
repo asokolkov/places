@@ -21,7 +21,7 @@
 </script>
 
 <button
-        class={`inline-flex ${bgColors[type]} ${textColors[type]} shadow-element rounded-global h-element shrink-0 items-center justify-center`}
+        class={`inline-flex ${bgColors[type]} ${textColors[type]} gap-s shadow-element rounded-global h-element shrink-0 items-center justify-center`}
         on:click={onClick}
 >
     {#if icon !== undefined}

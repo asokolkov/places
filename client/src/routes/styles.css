@@ -9,6 +9,22 @@
         @apply text-black;
         font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
     }
+
+    h1 {
+        @apply text-h1;
+    }
+
+    h2 {
+        @apply text-h2;
+    }
+
+    h3 {
+        @apply text-h3;
+    }
+
+    p {
+        @apply text-p;
+    }
 }
 
 @layer utilities {
