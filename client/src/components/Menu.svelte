@@ -5,8 +5,8 @@
     import IconBookmark from '$lib/icons/IconBookmark.svelte';
 </script>
 
-<footer class="flex p-m rounded-t-[32px] gap-l bg-white shadow-element">
-    <MenuButton icon={IconDiscover} text="Просмотр" route="/discover" />
+<footer class="flex p-m rounded-t-[32px] gap-l bg-white shadow-element justify-center">
+    <MenuButton icon={IconDiscover} text="Обзор" route="/discover" />
     <MenuButton icon={IconBookmark} text="Сохраненные" route="/saved" />
     <MenuButton icon={IconProfile} text="Профиль" route="/profile" />
 </footer>
