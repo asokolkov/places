@@ -4,6 +4,7 @@
     export let type: 'primary' | 'secondary' | 'tertiary' | 'destructive';
     export let icon: ComponentType | undefined = undefined;
     export let text: string;
+    export let submit: boolean = false;
     export let onClick: () => void = () => {};
 
     const bgColors = {
@@ -21,6 +22,7 @@
 </script>
 
 <button
+        type={submit ? 'submit' : 'button'}
         class={`inline-flex ${bgColors[type]} ${textColors[type]} gap-s shadow-element rounded-global h-element shrink-0 items-center justify-center`}
         on:click={onClick}
 >
