@@ -18,8 +18,10 @@
 
 <button
         on:click={handleClick}
-        class={`flex h-[48px] w-full text-p rounded-block gap-s flex-row justify-center items-center ${active ? 'text-white' : 'text-black'} ${active ? 'bg-black' : 'bg-white'}`}
+        class={`flex h-element text-p rounded-global gap-s justify-center items-center ${active ? 'flex-fill' : 'w-element'} ${active ? 'text-white' : 'text-black'} ${active ? 'bg-black' : 'bg-white'}`}
 >
     <svelte:component this={icon} />
-    {#if (active)}{text}{/if}
+    {#if (active)}
+        {text}
+    {/if}
 </button>
