@@ -1,5 +1,8 @@
 <script>
     import Placelist from 'components/Placelist.svelte';
+    import Input from 'components/Input.svelte';
+    import Card from 'components/Card.svelte';
+    import Button from 'components/Button.svelte';
 
     const placelists = [
         {publicId: 'adw', name: 'Лучшие рестораны Екатеринбурга', author: '@kfcgenius'},
@@ -22,8 +25,9 @@
     ];
 </script>
 
-<ul class="flex self-stretch flex-fill flex-col overflow-y-scroll no-scroll gap-m">
-    {#each placelists as {publicId, name, author}}
-        <Placelist {publicId} {name} {author} />
-    {/each}
-</ul>
+<h1>Все плейслисты</h1>
+<Input type="search" placeholder="Найти плейслист" />
+
+{#each placelists as {name, author}}
+    <Card text={name} hint={author} active={true} extended={false} />
+{/each}
