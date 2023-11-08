@@ -6,6 +6,7 @@
 
     export let type: 'number' | 'search' | 'text' | 'email' | 'password';
     export let placeholder: string;
+    export let onInput: (value: string) => void = () => { };
 
     let inputElement: HTMLInputElement;
     let inputValue: string = '';
@@ -28,5 +29,11 @@
 
 <label on:focus={() => inputElement.focus()} class={`element h-element items-center gap-s self-stretch bg-white cursor-text ${labelColor}`}>
     <svelte:component this={icons[type]} />
-    <input bind:this={inputElement} bind:value={inputValue} {placeholder} class="flex-fill appearance-none caret-black outline-0" />
+    <input
+            on:input={() => onInput(inputElement.value)}
+            bind:this={inputElement}
+            bind:value={inputValue}
+            {placeholder}
+            class="flex-fill appearance-none caret-black outline-0"
+    />
 </label>
