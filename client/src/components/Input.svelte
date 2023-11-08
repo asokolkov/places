@@ -26,7 +26,7 @@
     });
 </script>
 
-<label on:focus={() => inputElement.focus()} class={`flex px-m items-center gap-s self-stretch rounded-global bg-white ${labelColor}`}>
+<label on:focus={() => inputElement.focus()} class={`element items-center gap-s self-stretch bg-white ${labelColor}`}>
     <svelte:component this={icons[type]} />
-    <input bind:this={inputElement} bind:value={inputValue} {placeholder} class="w-full h-element appearance-none caret-black bg-search outline-0" />
+    <input bind:this={inputElement} bind:value={inputValue} {placeholder} class="flex-fill appearance-none caret-black outline-0" />
 </label>

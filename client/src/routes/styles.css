@@ -12,15 +12,20 @@
 }
 
 @layer utilities {
-    @variants responsive {
-        .no-scroll::-webkit-scrollbar {
-            display: none;
-        }
+    .no-scroll::-webkit-scrollbar {
+        display: none;
+    }
 
-        .no-scroll {
-            -ms-overflow-style: none;
-            scrollbar-width: none;
-        }
+    .no-scroll {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    .element {
+        display: flex;
+        padding: 16px;
+        border-radius: 16px;
+        box-shadow: 0 0 12px 2px #0000000F;
     }
 }
 
@@ -39,4 +44,10 @@ body {
     background-color: #F3F3F3;
     width: 100vw;
     min-height: 100vh;
+}
+
+input::-webkit-search-cancel-button,
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    appearance: none;
 }
