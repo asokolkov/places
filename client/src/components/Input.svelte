@@ -3,6 +3,7 @@
     import IconSearch from '$lib/icons/IconSearch.svelte';
     import IconText from '$lib/icons/IconText.svelte';
     import IconPassword from '$lib/icons/IconPassword.svelte';
+    import IconEmail from '$lib/icons/IconEmail.svelte';
 
     export let type: 'number' | 'search' | 'text' | 'email' | 'password';
     export let placeholder: string;
@@ -15,7 +16,7 @@
         number: IconText,
         search: IconSearch,
         text: IconText,
-        email: IconText,
+        email: IconEmail,
         password: IconPassword,
     };
 
