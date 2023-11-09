@@ -10,7 +10,6 @@
 
     let inputElement: HTMLInputElement;
     let inputValue: string = '';
-    let labelColor: string;
 
     const icons = {
         number: IconText,
@@ -20,20 +19,50 @@
         password: IconPassword,
     };
 
-    $: labelColor = inputValue ? 'text-black' : 'text-inactive';
-
     onMount(() => {
         inputElement.type = type;
     });
 </script>
 
-<label on:focus={() => inputElement.focus()} class={`element h-element items-center gap-s self-stretch bg-white cursor-text ${labelColor}`}>
+<label on:focus={() => inputElement.focus()} class="input" class:input__active={inputValue}>
     <svelte:component this={icons[type]} />
     <input
             on:input={() => onInput(inputElement.value)}
             bind:this={inputElement}
             bind:value={inputValue}
             {placeholder}
-            class="flex-fill appearance-none caret-black outline-0"
+            class="input-field"
     />
 </label>
+
+<style>
+    .input {
+        display: flex;
+        padding: 0 var(--size-16);
+        gap: var(--size-8);
+        align-items: center;
+        border-radius: var(--radius);
+        cursor: text;
+        background-color: var(--color-white);
+        color: var(--color-inactive);
+    }
+
+    .input__active {
+        color: var(--color-black);
+    }
+
+    .input-field {
+        height: var(--size-user-input);
+        flex-grow: 1;
+        padding: 0;
+        border: 0;
+        outline: 0;
+        font: var(--font-p);
+    }
+
+    .input-field::-webkit-search-cancel-button,
+    .input-field::-webkit-outer-spin-button,
+    .input-field::-webkit-inner-spin-button {
+        appearance: none;
+    }
+</style>

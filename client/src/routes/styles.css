@@ -1,69 +1,72 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-@layer base {
-    html {
-        @apply text-black;
-        font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-    }
-
-    h1 {
-        @apply text-h1;
-    }
-
-    h2 {
-        @apply text-h2;
-    }
-
-    h3 {
-        @apply text-h3;
-    }
-
-    p {
-        @apply text-p;
-    }
-}
-
-@layer utilities {
-    .no-scroll::-webkit-scrollbar {
-        display: none;
-    }
-
-    .no-scroll {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-    }
-
-    .element {
-        display: flex;
-        padding: 16px;
-        border-radius: 16px;
-        box-shadow: 0 0 12px 2px #0000000F;
-    }
-}
-
 :root {
-    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-    font-synthesis: none;
-    text-rendering: optimizeLegibility;
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    -webkit-text-size-adjust: 100%;
+    --color-primary: #C2EB2D;
+    --color-black: #1E1E1E;
+    --color-white: #FFF;
+    --color-bg: #eaeaea;
+    --color-inactive: #858585;
+    --color-error: #E24848;
+
+    --radius: 16px;
+
+    --size-8: 8px;
+    --size-16: 16px;
+    --size-24: 24px;
+    --size-user-input: 48px;
+
+    --font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    --font-h1: 600 24px/32px var(--font-family);
+    --font-h2: 500 20px/24px var(--font-family);
+    --font-h3: 600 16px/16px var(--font-family);
+    --font-p: 500 15px/16px var(--font-family);
 }
 
 body {
     margin: 0;
     display: flex;
-    background-color: #F3F3F3;
+    flex-direction: column;
+    background-color: var(--color-bg);
     width: 100vw;
-    min-height: 100vh;
+    height: 100vh;
 }
 
-input::-webkit-search-cancel-button,
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-    appearance: none;
+.text-h1 {
+    margin: 0;
+    font: var(--font-h1);
+    color: var(--color-black);
+}
+
+.text-h2 {
+    margin: 0;
+    font: var(--font-h2);
+    color: var(--color-black);
+}
+
+.text-h3 {
+    margin: 0;
+    font: var(--font-h3);
+    color: var(--color-black);
+}
+
+.text-p {
+    font: var(--font-p);
+    color: var(--color-black);
+}
+
+.scroll-y {
+    overflow-y: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.scroll-x {
+    overflow-x: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.scroll-x::-webkit-scrollbar,
+.scroll-y::-webkit-scrollbar {
+    display: none;
 }

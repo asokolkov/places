@@ -1,36 +1,40 @@
 <script>
-    import Form from 'components/Form.svelte';
     import Input from 'components/Input.svelte';
     import IconSave from '$lib/icons/IconSave.svelte';
     import Button from 'components/Button.svelte';
     import IconSignOut from '$lib/icons/IconSignOut.svelte';
+    import Block from 'components/Block.svelte';
 </script>
 
-<header class="flex flex-col gap-s">
-    <h1>Алексей Соколков</h1>
-    <h2 class="text-inactive">@asokolkov</h2>
+<header class="header">
+    <h1 class="text-h1">Алексей Соколков</h1>
+    <h2 class="username text-h2">@asokolkov</h2>
 </header>
-<Form
-        header="Изменить почту"
-        submitText="Сохранить"
-        submitIcon={IconSave}
-        submitType="secondary"
-        action="#"
-        method="POST"
->
+<Block header="Изменить имя">
+    <Input type="text" placeholder="Новое имя" />
+    <Button type="secondary" icon={IconSave} text="Сохранить" submit />
+</Block>
+<Block header="Изменить почту">
     <Input type="email" placeholder="Новая почта" />
     <Input type="password" placeholder="Пароль" />
-</Form>
-<Form
-        header="Изменить почту"
-        submitText="Сохранить"
-        submitIcon={IconSave}
-        submitType="secondary"
-        action="#"
-        method="POST"
->
+    <Button type="secondary" icon={IconSave} text="Сохранить" submit />
+</Block>
+<Block header="Изменить пароль">
     <Input type="password" placeholder="Старый пароль" />
     <Input type="password" placeholder="Новый пароль" />
     <Input type="password" placeholder="Повторите новый пароль" />
-</Form>
+    <Button type="secondary" icon={IconSave} text="Сохранить" submit />
+</Block>
 <Button type="destructive" icon={IconSignOut} text="Выйти" />
+
+<style>
+    .header {
+        display: flex;
+        flex-direction: column;
+        gap: var(--size-8);
+    }
+
+    .username {
+        color: var(--color-inactive);
+    }
+</style>

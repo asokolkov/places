@@ -3,6 +3,7 @@
     import axios from 'axios';
     import Card from 'components/Card.svelte';
     import { goto } from '$app/navigation';
+    import Block from 'components/Block.svelte';
 
     let placelists: [] = [];
     $: placelists;
@@ -30,17 +31,13 @@
 
 <Input type="search" placeholder="Найти плейслист" {onInput} />
 {#if searchStatus === 'found'}
-    <section class="flex flex-col gap-m">
-        <h3>Результаты</h3>
-        <div class="flex gap-m overflow-y-scroll no-scroll">
-            {#each placelists as {public_id, name, user}}
-                <Card onClick={() => onClick(public_id)} text={name} hint={user} active={false} extended={true} />
-            {/each}
-        </div>
-    </section>
+    <Block header="Результаты" directionX>
+        {#each placelists as {public_id, name, user}}
+            <Card onClick={() => onClick(public_id)} text={name} hint={user} active={false} extended />
+        {/each}
+    </Block>
 {:else if searchStatus === 'notFound'}
-    <section class="flex flex-col gap-m">
-        <h3>Результаты</h3>
-        <p class="text-inactive">Пока не можем найти</p>
-    </section>
+    <Block header="Результаты">
+        <p>Пока не можем найти</p>
+    </Block>
 {/if}

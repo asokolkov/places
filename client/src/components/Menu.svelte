@@ -5,8 +5,19 @@
     import IconBookmark from '$lib/icons/IconBookmark.svelte';
 </script>
 
-<footer class="flex p-m rounded-t-[32px] gap-l bg-white shadow-element justify-center">
+<nav class="menu">
     <MenuButton icon={IconDiscover} text="Обзор" route="/discover" />
     <MenuButton icon={IconBookmark} text="Сохраненные" route="/saved" />
     <MenuButton icon={IconProfile} text="Профиль" route="/profile" />
-</footer>
+</nav>
+
+<style>
+    .menu {
+        display: flex;
+        padding: var(--size-16);
+        gap: var(--size-24);
+        justify-content: center;
+        border-radius: 32px 32px 0 0;
+        background-color: var(--color-white);
+    }
+</style>
