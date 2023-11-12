@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 from fastapi.security import OAuth2PasswordRequestForm
 
-from models import AccountToken
+from server.models import AccountToken
 
 
 accounts_router = APIRouter(prefix="/accounts", tags=["Accounts"])

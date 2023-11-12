@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 
-from api.utils import get_current_user
-from models import AccountToken, PlacelistCompressed, User
+from server.api.utils import get_current_user
+from server.models import PlacelistCompressed, User
 
 
 users_router = APIRouter(prefix="/users", tags=["Users"])

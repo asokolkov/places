@@ -1,9 +1,9 @@
 from fastapi import APIRouter
 
-from api.v1.endpoints.accounts import accounts_router
-from api.v1.endpoints.placelists import placelists_router
-from api.v1.endpoints.places import places_router
-from api.v1.endpoints.users import users_router
+from server.api.v1.endpoints.accounts import accounts_router
+from server.api.v1.endpoints.placelists import placelists_router
+from server.api.v1.endpoints.places import places_router
+from server.api.v1.endpoints.users import users_router
 
 
 api_router = APIRouter(prefix="/api/v1")

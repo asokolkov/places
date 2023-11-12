@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 
-from api.utils import get_current_user
-from models import Place, PlaceCreate, PlaceStatus, User
+from server.api.utils import get_current_user
+from server.models import Place, PlaceCreate, PlaceStatus, User
 
 
 places_router = APIRouter(prefix="/places", tags=["Places"])

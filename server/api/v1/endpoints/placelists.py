@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 
-from api.utils import get_current_user
-from models import Place, Placelist, PlacelistCompressed, PlacelistCreate, User
+from server.api.utils import get_current_user
+from server.models import Place, Placelist, PlacelistCompressed, PlacelistCreate, User
 
 
 placelists_router = APIRouter(prefix="/placelists", tags=["Placelists"])
