@@ -1,0 +1,20 @@
+.idea
+
+# Client
+
+.DS_Store
+node_modules
+client/build
+.svelte-kit
+package-lock.json
+client/package
+.env
+.env.*
+!.env.example
+.vercel
+.output
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+
+# Server
+venv
