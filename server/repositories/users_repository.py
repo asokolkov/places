@@ -37,7 +37,7 @@ class UsersRepository:
 
     async def get_by_username(self, username: str) -> UserEntity:
         async with session_maker.begin() as session:
-            statement = select(self._entity).where(self._entity.username == username)
+            statement = select(self._entity).filter_by(username=username)
             result = await session.execute(statement)
             return result.scalar_one()
 
@@ -49,6 +49,6 @@ class UsersRepository:
 
     async def update(self, entity: UserEntity):
         async with session_maker.begin() as session:
-            statement = update(self._entity).where(self._entity.id == entity.id).values(entity.dict()).returning(self._entity)
+            statement = update(self._entity).filter_by(id=entity.id).values(entity.dict()).returning(self._entity)
             result = await session.execute(statement)
             return result.scalar_one()

@@ -28,9 +28,9 @@ class PlacesRepository(AbstractPlacesRepository):
 
     async def get_by_content(self, content: str) -> PlaceEntity:
         async with session_maker.begin() as session:
-            statement = select(PlaceEntity).where(
-                PlaceEntity.id.icontains(content) |
-                PlaceEntity.name.icontains(content)
+            statement = select(PlaceEntity).filter(
+                self._entity.id.icontains(content) |
+                self._entity.name.icontains(content)
             )
             result = await session.execute(statement)
             return result.scalar_one()
@@ -43,6 +43,6 @@ class PlacesRepository(AbstractPlacesRepository):
 
     async def update(self, entity: PlaceEntity) -> PlaceEntity:
         async with session_maker.begin() as session:
-            statement = update(self._entity).where(self._entity.id == entity.id).values(entity.dict()).returning(self._entity)
+            statement = update(self._entity).filter_by(id=entity.id).values(entity.dict()).returning(self._entity)
             result = await session.execute(statement)
             return result.scalar_one()

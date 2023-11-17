@@ -37,7 +37,7 @@ class PlacelistsRepository(AbstractPlacelistsRepository):
 
     async def get_by_content(self, content: str) -> list[PlacelistEntity]:
         async with session_maker.begin() as session:
-            statement = select(self._entity).where(
+            statement = select(self._entity).filter(
                 self._entity.id.icontains(content) |
                 self._entity.name.icontains(content)
             )
@@ -52,6 +52,6 @@ class PlacelistsRepository(AbstractPlacelistsRepository):
 
     async def delete(self, entity_id: uuid5) -> PlacelistEntity:
         async with session_maker.begin() as session:
-            statement = delete(PlacelistEntity).where(PlacelistEntity.id == entity_id).returning(self._entity)
+            statement = delete(self._entity).filter_by(id=entity_id).returning(self._entity)
             result = await session.execute(statement)
             return result.scalar_one()
