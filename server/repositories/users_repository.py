@@ -5,6 +5,7 @@ from uuid import uuid5
 from sqlalchemy import insert
 from sqlalchemy import select
 from sqlalchemy import update
+from sqlalchemy_utils import get_columns
 
 from db.database import session_maker
 from db.entities import UserEntity
@@ -43,12 +44,12 @@ class UsersRepository:
 
     async def create(self, entity: UserEntity):
         async with session_maker.begin() as session:
-            statement = insert(self._entity).values(entity.dict()).returning(self._entity)
+            statement = insert(self._entity).values(get_columns(entity)).returning(self._entity)
             result = await session.execute(statement)
             return result.scalar_one()
 
     async def update(self, entity: UserEntity):
         async with session_maker.begin() as session:
-            statement = update(self._entity).filter_by(id=entity.id).values(entity.dict()).returning(self._entity)
+            statement = update(self._entity).filter_by(id=entity.id).values(get_columns(entity)).returning(self._entity)
             result = await session.execute(statement)
             return result.scalar_one()

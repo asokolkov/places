@@ -5,6 +5,7 @@ from uuid import uuid5
 from sqlalchemy import delete
 from sqlalchemy import insert
 from sqlalchemy import select
+from sqlalchemy_utils import get_columns
 
 from db.database import session_maker
 from db.entities import PlacelistEntity
@@ -46,8 +47,8 @@ class PlacelistsRepository(AbstractPlacelistsRepository):
 
     async def create(self, entity: PlacelistEntity) -> PlacelistEntity:
         async with session_maker.begin() as session:
-            statement = insert(self._entity).values(entity.dict()).returning(self._entity)
-            result = await session.execute(statement)
+            statement = insert(self._entity).values(get_columns(entity)).returning(self._entity)
+            result = await session.add(statement)
             return result.scalar_one()
 
     async def delete(self, entity_id: uuid5) -> PlacelistEntity:
