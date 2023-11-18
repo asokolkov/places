@@ -1,14 +1,10 @@
 import enum
+from uuid import UUID
+from uuid import uuid4
 
-from sqlalchemy import Enum
-from sqlalchemy import Float
-from sqlalchemy import ForeignKey
-from sqlalchemy import String
-from sqlalchemy import UUID
-from sqlalchemy.orm import DeclarativeBase
-from sqlalchemy.orm import Mapped
-from sqlalchemy.orm import mapped_column
-from sqlalchemy.orm import relationship
+from sqlmodel import Field
+from sqlmodel import Relationship
+from sqlmodel import SQLModel
 
 
 class PlaceStatus(int, enum.Enum):
@@ -18,71 +14,56 @@ class PlaceStatus(int, enum.Enum):
     NOT_INTERESTED = 3
 
 
-class Base(DeclarativeBase):
-    pass
+class UserPlacelistLink(SQLModel, table=True):
+    user_id: UUID | None = Field(default=None, foreign_key='user.id', primary_key=True)
+    placelist_id: UUID | None = Field(default=None, foreign_key='placelist.id', primary_key=True)
 
 
-class UserPlacelistAssociationTable(Base):
-    __tablename__ = 'user_placelist_association'
-    user_id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), ForeignKey('users.id'), primary_key=True)
-    placelist_id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), ForeignKey('placelists.id'), primary_key=True)
+class User(SQLModel, table=True):
+    id: UUID = Field(primary_key=True, default_factory=uuid4)
+    mail: str
+    username: str
+    name: str
+    password: str
+    placelists: list["Placelist"] = Relationship(link_model=UserPlacelistLink)
 
 
-class UserPlaceAssociationTable(Base):
-    __tablename__ = 'user_place_association'
-    user_id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), ForeignKey('users.id'), primary_key=True)
-    place_id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), ForeignKey('places.id'), primary_key=True)
-    status: Mapped[PlaceStatus] = mapped_column(Enum(PlaceStatus))
+class Placelist(SQLModel, table=True):
+    id: UUID = Field(primary_key=True, default_factory=uuid4)
+    name: str
+    author_id: UUID
+    users: list["User"] = Relationship(link_model=UserPlacelistLink, back_populates='placelists')
 
 
-class PlacePlacelistAssociationTable(Base):
-    __tablename__ = 'place_placelist_association'
-    place_id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), ForeignKey('places.id'), primary_key=True)
-    placelist_id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), ForeignKey('placelists.id'), primary_key=True)
+# class PlaceEntity(Base):
+#     __tablename__ = "places"
+#     id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), primary_key=True)
+#     name: Mapped[str] = mapped_column(String(255), nullable=False)
+#     address: Mapped[str] = mapped_column(String(255), nullable=False)
+#     latitude: Mapped[float] = mapped_column(Float, nullable=False)
+#     longitude: Mapped[float] = mapped_column(Float, nullable=False)
+#     # users: Mapped[list["UserEntity"]] = relationship(
+#     #     secondary=UserPlaceAssociationEntity.__tablename__,
+#     #     back_populates=__tablename__,
+#     #     lazy="joined"
+#     # )
+#     # placelists: Mapped[list["PlacelistEntity"]] = relationship(
+#     #     secondary=PlacePlacelistAssociationEntity.__tablename__,
+#     #     back_populates=__tablename__,
+#     #     lazy="joined"
+#     # )
+#
 
-
-class UserTable(Base):
-    __tablename__ = "users"
-    id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), primary_key=True)
-    public_id: Mapped[str] = mapped_column(String(8), unique=True)
-    mail: Mapped[str] = mapped_column(String(255))
-    password: Mapped[str] = mapped_column(String(255))
-    username: Mapped[str] = mapped_column(String(255))
-    name: Mapped[str] = mapped_column(String(255))
-    placelists: Mapped[list["PlacelistTable"]] = relationship(
-        secondary=UserPlacelistAssociationTable.__tablename__, back_populates="users", lazy="joined"
-    )
-    places: Mapped[list["PlaceTable"]] = relationship(
-        secondary=UserPlaceAssociationTable.__tablename__, back_populates="users", lazy="joined"
-    )
-
-
-class PlacelistTable(Base):
-    __tablename__ = "placelists"
-    id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), primary_key=True)
-    public_id: Mapped[str] = mapped_column(String(8), unique=True)
-    name: Mapped[str] = mapped_column(String(255), nullable=False)
-    author_id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), unique=True)
-    users: Mapped[list["UserTable"]] = relationship(
-        secondary=UserPlacelistAssociationTable.__tablename__, back_populates="placelists", lazy="joined"
-    )
-    places: Mapped[list["PlaceTable"]] = relationship(
-        secondary=PlacePlacelistAssociationTable.__tablename__, back_populates="placelists", lazy="joined"
-    )
-
-
-class PlaceTable(Base):
-    __tablename__ = "places"
-    id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), primary_key=True)
-    public_id: Mapped[str] = mapped_column(String(8), unique=True)
-    name: Mapped[str] = mapped_column(String(255), nullable=False)
-    address: Mapped[str] = mapped_column(String(255), nullable=False)
-    latitude: Mapped[float] = mapped_column(Float, nullable=False)
-    longitude: Mapped[float] = mapped_column(Float, nullable=False)
-    users: Mapped[list["UserTable"]] = relationship(
-        secondary=UserPlaceAssociationTable.__tablename__, back_populates="places", lazy="joined"
-    )
-    placelists: Mapped[list["PlacelistTable"]] = relationship(
-        secondary=PlacePlacelistAssociationTable.__tablename__, back_populates="places",
-        lazy="joined"
-    )
+#
+#
+# class UserPlaceAssociationEntity(Base):
+#     __tablename__ = 'user_place_association'
+#     user_id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), ForeignKey(UserEntity.id), primary_key=True)
+#     place_id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), ForeignKey(PlaceEntity.id), primary_key=True)
+#     status: Mapped[PlaceStatus] = mapped_column(Enum(PlaceStatus))
+#
+#
+# class PlacePlacelistAssociationEntity(Base):
+#     __tablename__ = 'place_placelist_association'
+#     place_id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), ForeignKey(PlaceEntity.id), primary_key=True)
+#     placelist_id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), ForeignKey(PlacelistEntity.id), primary_key=True)

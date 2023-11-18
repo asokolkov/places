@@ -1,25 +1,28 @@
-import functools
-from asyncio import current_task
-from contextlib import contextmanager
+import asyncio
+from abc import ABC
+from abc import abstractmethod
 
-from async_lru import alru_cache
-from sqlalchemy.ext.asyncio import async_scoped_session
-from sqlalchemy.ext.asyncio import async_sessionmaker
-from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy.ext.asyncio import create_async_engine
-
-from .entities import Base
+from sqlmodel import SQLModel, create_engine
+from sqlmodel.ext.asyncio.session import AsyncSession, AsyncEngine
+from sqlalchemy.orm import sessionmaker
 
 
-async def get_session() -> AsyncSession:
-    session_maker = await get_session_maker()
-    async with session_maker() as session:
-        yield session
+class AbstractDatabase(ABC):
+    @abstractmethod
+    def get_session_maker(self) -> sessionmaker:
+        raise NotImplementedError
 
 
-@alru_cache()
-async def get_session_maker():
-    engine = create_async_engine("postgresql+asyncpg://postgres:postgres@localhost/test")
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
-    return async_sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
+class Database(AbstractDatabase):
+    def __init__(self):
+        self._engine = AsyncEngine(create_engine("postgresql+asyncpg://postgres:postgres@localhost/test", echo=True, future=True))
+        self._session_maker = sessionmaker(self._engine, class_=AsyncSession, expire_on_commit=False)
+        # asyncio.run(self._create_tables())
+
+    def get_session_maker(self) -> sessionmaker:
+        return self._session_maker
+
+    async def _create_tables(self):
+        async with self._engine.begin() as connection:
+            await connection.run_sync(SQLModel.metadata.drop_all)
+            await connection.run_sync(SQLModel.metadata.create_all)
