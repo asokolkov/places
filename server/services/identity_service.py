@@ -3,7 +3,6 @@ from abc import abstractmethod
 from datetime import datetime
 from datetime import timedelta
 from datetime import timezone
-from typing import Any
 
 import jwt
 from passlib.context import CryptContext
@@ -29,14 +28,6 @@ class AbstractIdentityService(ABC):
 
     @abstractmethod
     async def decode_token(self, token: str) -> UserIdentity:
-        raise NotImplementedError()
-
-    @abstractmethod
-    async def _create_token(self, identity_id: str) -> str:
-        raise NotImplementedError()
-
-    @abstractmethod
-    async def _password_verified(self, password: str, hashed_password: str) -> bool:
         raise NotImplementedError()
 
 
