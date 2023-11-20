@@ -1,77 +1,64 @@
-from abc import ABC
-from abc import abstractmethod
+from abc import ABC, abstractmethod
 from datetime import datetime
-from datetime import timedelta
-from datetime import timezone
 
-import jwt
-from passlib.context import CryptContext
-from pydantic import parse_obj_as
-
-from configs import JWT_ALGORITHM
-from configs import JWT_SECRET_KEY
-from configs import JWT_TOKEN_EXPIRE_DAYS
 from db.entities import User as UserEntity
 from models.identity import IdentitySignin, IdentitySignup
 from models.user import UserIdentity
-from repositories.unit_of_work import AbstractUnitOfWork
+from utils.cryptography import AbstractCryptography
+from utils.unit_of_work import AbstractUnitOfWork
 
 
 class AbstractIdentityService(ABC):
     @abstractmethod
-    async def signin(self, identity: IdentitySignin) -> (UserIdentity | None, str | None):
+    async def signin(
+        self, identity: IdentitySignin
+    ) -> (UserIdentity | None, str | None, datetime | None):
         raise NotImplementedError()
 
     @abstractmethod
-    async def signup(self, identity: IdentitySignup) -> (UserIdentity | None, str | None):
-        raise NotImplementedError()
-
-    @abstractmethod
-    async def decode_token(self, token: str) -> UserIdentity:
+    async def signup(
+        self, identity: IdentitySignup
+    ) -> (UserIdentity | None, str | None, datetime | None):
         raise NotImplementedError()
 
 
 class IdentityService(AbstractIdentityService):
-    def __init__(self, uow: AbstractUnitOfWork):
+    def __init__(self, uow: AbstractUnitOfWork, cryptography: AbstractCryptography):
         self._uow = uow
-        self._pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
+        self._cryptography = cryptography
 
-    async def signin(self, identity_signin: IdentitySignin) -> (UserIdentity | None, str | None):
+    async def signin(
+        self, identity_signin: IdentitySignin
+    ) -> (UserIdentity | None, str | None, datetime | None):
         async with self._uow as uow:
-            existing_entity = await uow.users.get_by_mail(identity_signin.mail)
-            if existing_entity is None:
-                return None, None
-            if not await self._password_verified(identity_signin.password, existing_entity.password):
-                return None, None
-            user_identity = UserIdentity.from_orm(existing_entity)
-            token = await self._create_token(user_identity)
-            return user_identity, token
+            entity = await uow.users.get_by_mail(identity_signin.mail)
+            if entity is None:
+                return None, None, None
+            if not await self._cryptography.similar_hashes(
+                identity_signin.password, entity.password
+            ):
+                return None, None, None
+            return await self._build_entity_with_token(entity)
 
-    async def signup(self, identity_signup: IdentitySignup) -> (UserIdentity | None, str | None):
+    async def signup(
+        self, identity_signup: IdentitySignup
+    ) -> (UserIdentity | None, str | None, datetime | None):
         async with self._uow as uow:
-            existing_entity = await uow.users.get_by_mail_and_username(identity_signup.mail, identity_signup.username)
-            if existing_entity is not None:
-                return None, None
-            entity = parse_obj_as(UserEntity, identity_signup)
-            entity.password = self._pwd_context.hash(entity.password)
-            result = await uow.users.create(entity)
-            user_identity = UserIdentity.from_orm(result)
-            token = await self._create_token(user_identity)
-            return user_identity, token
+            entity = await uow.users.get_by_mail_and_username(
+                identity_signup.mail, identity_signup.username
+            )
+            if entity is not None:
+                return None, None, None
+            entity_to_create = UserEntity.from_orm(identity_signup)
+            entity_to_create.password = await self._cryptography.hash(
+                entity_to_create.password
+            )
+            created_entity = await uow.users.create(entity_to_create)
+            await uow.commit()
+            return await self._build_entity_with_token(created_entity)
 
-    async def decode_token(self, token: str) -> UserIdentity:
-        decoded_token = jwt.decode(token, JWT_SECRET_KEY, algorithms=[JWT_ALGORITHM])
-        return UserIdentity(**decoded_token)
-
-    async def _create_token(self, user_identifier: UserIdentity) -> str:
-        expiration_date = datetime.now(timezone.utc) + timedelta(days=JWT_TOKEN_EXPIRE_DAYS)
-        user_dictionary = user_identifier.dict()
-        user_dictionary['id'] = str(user_dictionary['id'])
-        token = {'expiration_date': expiration_date.timestamp(), **user_dictionary}
-        return jwt.encode(token, JWT_SECRET_KEY, algorithm=JWT_ALGORITHM)
-
-    async def _password_verified(self, password: str, hashed_password: str) -> bool:
-        try:
-            return self._pwd_context.verify(password, hashed_password)
-        except (ValueError, TypeError):
-            return False
+    async def _build_entity_with_token(self, entity):
+        result = UserIdentity.from_orm(entity)
+        expiration_date = await self._cryptography.get_expiration_date()
+        token = await self._cryptography.encode_token(entity.dict(), expiration_date)
+        return result, token, expiration_date

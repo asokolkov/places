@@ -1,13 +1,11 @@
 from uuid import UUID
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter, Depends, HTTPException
+from starlette import status
 
-from api.utils.dependencies import get_current_user
-from api.utils.dependencies import users_service
-from models.user import User
-from models.user import UserCompressed
-from models.user import UserIdentity
-from models.user import UserPlacelist
+from api.utils.dependencies import get_current_user, users_service
+from models.user import UserCompressed, UserIdentity, UserPlacelists
+
 
 users_router = APIRouter(prefix="/users", tags=["Users"])
 
@@ -19,12 +17,17 @@ async def get_current(user: UserIdentity = Depends(get_current_user)) -> UserIde
 
 @users_router.get("/current/placelists")
 async def get_current_placelists(
-    user: User = Depends(get_current_user),
-) -> list[UserPlacelist]:
+    user: UserIdentity = Depends(get_current_user),
+) -> UserPlacelists:
     return await users_service.get_placelists(user.id)
 
 
 @users_router.get("/{user_id}")
 async def get_by_id(user_id: UUID) -> UserCompressed:
     user = await users_service.get(user_id)
+    if user is None:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="User not found",
+        )
     return user

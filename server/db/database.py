@@ -1,9 +1,13 @@
-from sqlmodel import SQLModel, create_engine
-from sqlmodel.ext.asyncio.session import AsyncSession, AsyncEngine
 from sqlalchemy.orm import sessionmaker
+from sqlmodel import create_engine, SQLModel
+from sqlmodel.ext.asyncio.session import AsyncEngine, AsyncSession
 
 
-ENGINE = AsyncEngine(create_engine("postgresql+asyncpg://postgres:postgres@localhost/test", echo=True, future=True))
+ENGINE = AsyncEngine(
+    create_engine(
+        "postgresql+asyncpg://postgres:postgres@localhost/test", echo=True, future=True
+    )
+)
 SESSION_MAKER = sessionmaker(ENGINE, class_=AsyncSession, expire_on_commit=False)
 
 

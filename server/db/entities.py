@@ -1,10 +1,7 @@
 import enum
-from uuid import UUID
-from uuid import uuid4
+from uuid import UUID, uuid4
 
-from sqlmodel import Field
-from sqlmodel import Relationship
-from sqlmodel import SQLModel
+from sqlmodel import Field, Relationship, SQLModel
 
 
 class PlaceStatus(int, enum.Enum):
@@ -15,8 +12,10 @@ class PlaceStatus(int, enum.Enum):
 
 
 class UserPlacelistLink(SQLModel, table=True):
-    user_id: UUID | None = Field(default=None, foreign_key='user.id', primary_key=True)
-    placelist_id: UUID | None = Field(default=None, foreign_key='placelist.id', primary_key=True)
+    user_id: UUID | None = Field(default=None, foreign_key="user.id", primary_key=True)
+    placelist_id: UUID | None = Field(
+        default=None, foreign_key="placelist.id", primary_key=True
+    )
 
 
 class User(SQLModel, table=True):
@@ -32,7 +31,9 @@ class Placelist(SQLModel, table=True):
     id: UUID = Field(primary_key=True, default_factory=uuid4)
     name: str
     author_id: UUID
-    users: list["User"] = Relationship(link_model=UserPlacelistLink, back_populates='placelists')
+    users: list["User"] = Relationship(
+        link_model=UserPlacelistLink, back_populates="placelists"
+    )
 
 
 # class PlaceEntity(Base):
