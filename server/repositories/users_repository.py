@@ -4,8 +4,7 @@ from uuid import UUID
 
 from sqlalchemy.orm import selectinload
 from sqlmodel import select
-
-from db.database import AbstractDatabase
+from sqlmodel.ext.asyncio.session import AsyncSession
 from db.entities import User
 
 
@@ -15,7 +14,11 @@ class AbstractUsersRepository(ABC):
         raise NotImplementedError()
 
     @abstractmethod
-    async def get_by_username(self, username: str) -> User:
+    async def get_by_mail(self, mail: str) -> User | None:
+        raise NotImplementedError()
+
+    @abstractmethod
+    async def get_by_mail_and_username(self, mail: str, username: str) -> User | None:
         raise NotImplementedError()
 
     @abstractmethod
@@ -28,37 +31,33 @@ class AbstractUsersRepository(ABC):
 
 
 class UsersRepository(AbstractUsersRepository):
-    def __init__(self, db: AbstractDatabase):
-        self._db = db
+    def __init__(self, session: AsyncSession):
+        self._session = session
 
     async def get(self, entity_id: UUID) -> User:
-        async with self._db.get_session_maker()() as session:
-            result = await session.scalars(select(User).where(User.id == entity_id).options(selectinload(User.placelists)))
-            return result.one()
+        result = await self._session.scalars(select(User).where(User.id == entity_id).options(selectinload(User.placelists)))
+        return result.one()
 
-    async def get_by_username(self, username: str) -> User:
-        async with self._db.get_session_maker()() as session:
-            result = await session.scalars(select(User).where(User.username == username))
-            return result.one()
+    async def get_by_mail(self, mail: str) -> User | None:
+        result = await self._session.scalars(select(User).where(User.mail == mail))
+        return result.first()
+
+    async def get_by_mail_and_username(self, mail: str, username: str) -> User | None:
+        result = await self._session.scalars(select(User).where(User.mail == mail, User.mail == username))
+        return result.first()
 
     async def create(self, entity: User) -> User:
-        async with self._db.get_session_maker()() as session:
-            session.add(entity)
-            await session.commit()
-            result = await session.scalars(select(User).where(User.id == entity.id).options(selectinload(User.placelists)))
-            return result.one()
+        self._session.add(entity)
+        await self._session.commit()
+        await self._session.refresh(entity)
+        return entity
 
     async def update(self, entity: User) -> User:
-        async with self._db.get_session_maker()() as session:
-            result = await session.get(User, entity.id)
-            result.mail = entity.mail
-            result.password = entity.password
-            result.username = entity.username
-            result.name = entity.name
-            await session.commit()
-            result = await session.scalars(
-                select(User).where(User.id == entity.id).options(
-                    selectinload(User.placelists)
-                    )
-                )
-            return result.one()
+        result = await self._session.get(User, entity.id)
+        result.mail = entity.mail
+        result.password = entity.password
+        result.username = entity.username
+        result.name = entity.name
+        await self._session.commit()
+        await self._session.refresh(entity)
+        return entity
