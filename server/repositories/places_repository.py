@@ -1,49 +1,63 @@
-from abc import ABC
-from abc import abstractmethod
+from abc import ABC, abstractmethod
+from uuid import UUID
 
-from sqlalchemy import insert
 from sqlalchemy import select
-from sqlalchemy import update
-from sqlalchemy_utils import get_columns
+from sqlalchemy import or_
+from sqlmodel.ext.asyncio.session import AsyncSession
 
-from db.database import session_maker
-from db.entities import PlaceEntity
+from db.entities import Place
+from db.entities import PlaceStatus
+from db.entities import UserPlaceLink
 
 
 class AbstractPlacesRepository(ABC):
     @abstractmethod
-    async def get_by_content(self, content: str) -> list[PlaceEntity]:
+    async def get(self, entity_id: UUID) -> Place | None:
         raise NotImplementedError()
 
     @abstractmethod
-    async def create(self, entity: PlaceEntity) -> PlaceEntity:
+    async def get_link(self, entity_id: UUID, user_id: UUID) -> UserPlaceLink | None:
         raise NotImplementedError()
 
     @abstractmethod
-    async def update(self, entity: PlaceEntity) -> PlaceEntity:
+    async def get_by_content(self, content: str) -> list[Place]:
+        raise NotImplementedError()
+
+    @abstractmethod
+    async def create(self, entity: Place) -> Place:
+        raise NotImplementedError()
+
+    @abstractmethod
+    async def create_link(self, entity: UserPlaceLink) -> UserPlaceLink:
+        raise NotImplementedError()
+
+    @abstractmethod
+    async def update_link(self, entity: UserPlaceLink, status: PlaceStatus) -> UserPlaceLink:
         raise NotImplementedError()
 
 
 class PlacesRepository(AbstractPlacesRepository):
-    _entity = PlaceEntity
+    def __init__(self, session: AsyncSession):
+        self._session = session
 
-    async def get_by_content(self, content: str) -> PlaceEntity:
-        async with session_maker.begin() as session:
-            statement = select(PlaceEntity).filter(
-                self._entity.id.icontains(content) |
-                self._entity.name.icontains(content)
-            )
-            result = await session.execute(statement)
-            return result.scalar_one()
+    async def get(self, entity_id: UUID) -> Place | None:
+        return await self._session.get(Place, entity_id)
 
-    async def create(self, entity: PlaceEntity) -> PlaceEntity:
-        async with session_maker.begin() as session:
-            statement = insert(self._entity).values(get_columns(entity)).returning(self._entity)
-            result = await session.execute(statement)
-            return result.scalar_one()
+    async def get_link(self, entity_id: UUID, user_id: UUID) -> UserPlaceLink | None:
+        return await self._session.get(UserPlaceLink, {"user_id": user_id, "place_id": entity_id})
 
-    async def update(self, entity: PlaceEntity) -> PlaceEntity:
-        async with session_maker.begin() as session:
-            statement = update(self._entity).filter_by(id=entity.id).values(get_columns(entity)).returning(self._entity)
-            result = await session.execute(statement)
-            return result.scalar_one()
+    async def get_by_content(self, content: str) -> list[Place]:
+        result = await self._session.scalars(select(Place).where(or_(Place.name == content, Place.address == content)))
+        return result.all()
+
+    async def create(self, entity: Place) -> Place:
+        self._session.add(entity)
+        return entity
+
+    async def create_link(self, entity: UserPlaceLink) -> UserPlaceLink:
+        self._session.add(entity)
+        return entity
+
+    async def update_link(self, entity: UserPlaceLink, status: PlaceStatus) -> UserPlaceLink:
+        entity.status = status
+        return entity

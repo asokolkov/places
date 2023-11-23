@@ -1,6 +1,7 @@
 import enum
+from uuid import UUID
 
-from pydantic import BaseModel
+from sqlmodel import SQLModel
 
 
 class PlaceStatus(enum.Enum):
@@ -10,15 +11,24 @@ class PlaceStatus(enum.Enum):
     NOT_INTERESTED = 3
 
 
-class Place(BaseModel):
+class Place(SQLModel):
+    id: UUID
     name: str
-    public_id: str
     address: str
-    visited: bool
+    status: PlaceStatus
 
 
-class PlaceCreate(BaseModel):
+class PlacesList(SQLModel):
+    places: list[Place]
+
+
+class PlaceCreate(SQLModel):
     name: str
     address: str
     latitude: float
     longitude: float
+
+
+class PlaceUpdate(SQLModel):
+    id: UUID
+    status: PlaceStatus

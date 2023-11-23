@@ -1,3 +1,5 @@
+import asyncio
+
 from sqlalchemy.orm import sessionmaker
 from sqlmodel import create_engine, SQLModel
 from sqlmodel.ext.asyncio.session import AsyncEngine, AsyncSession
@@ -15,3 +17,6 @@ async def init_db():
     async with ENGINE.begin() as connection:
         await connection.run_sync(SQLModel.metadata.drop_all)
         await connection.run_sync(SQLModel.metadata.create_all)
+
+
+# asyncio.run(init_db())
