@@ -11,3 +11,22 @@ class IdentitySignup(SQLModel):
     username: str
     mail: str
     password: str
+
+
+class IdentityUpdateMail(SQLModel):
+    new_mail: str
+    password: str
+
+
+class IdentityUpdateUsername(SQLModel):
+    new_username: str
+    password: str
+
+
+class IdentityUpdatePassword(SQLModel):
+    old_password: str
+    new_password: str
+
+
+class IdentityUpdateName(SQLModel):
+    new_name: str

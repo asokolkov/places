@@ -20,6 +20,10 @@ class AbstractUsersRepository(ABC):
         raise NotImplementedError()
 
     @abstractmethod
+    async def get_by_username(self, username: str) -> User | None:
+        raise NotImplementedError()
+
+    @abstractmethod
     async def get_by_mail_and_username(self, mail: str, username: str) -> User | None:
         raise NotImplementedError()
 
@@ -42,6 +46,10 @@ class UsersRepository(AbstractUsersRepository):
 
     async def get_by_mail(self, mail: str) -> User | None:
         result = await self._session.scalars(select(User).where(User.mail == mail))
+        return result.first()
+
+    async def get_by_username(self, username: str) -> User | None:
+        result = await self._session.scalars(select(User).where(User.username == username))
         return result.first()
 
     async def get_by_mail_and_username(self, mail: str, username: str) -> User | None:
