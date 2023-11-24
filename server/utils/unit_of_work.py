@@ -2,6 +2,8 @@ from abc import ABC, abstractmethod
 from typing import Self
 
 from db.database import SESSION_MAKER
+from repositories.placelists_repository import AbstractPlacelistsRepository
+from repositories.placelists_repository import PlacelistsRepository
 from repositories.places_repository import AbstractPlacesRepository
 from repositories.places_repository import PlacesRepository
 from repositories.users_repository import AbstractUsersRepository, UsersRepository
@@ -10,6 +12,7 @@ from repositories.users_repository import AbstractUsersRepository, UsersReposito
 class AbstractUnitOfWork(ABC):
     users: AbstractUsersRepository
     places: AbstractPlacesRepository
+    placelists: AbstractPlacelistsRepository
 
     @abstractmethod
     async def __aenter__(self) -> Self:
@@ -32,6 +35,7 @@ class UnitOfWork(AbstractUnitOfWork):
         self._session = self._session_maker()
         self.users = UsersRepository(self._session)
         self.places = PlacesRepository(self._session)
+        self.placelists = PlacelistsRepository(self._session)
         return self
 
     async def __aexit__(self, *args) -> None:

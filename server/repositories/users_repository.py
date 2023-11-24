@@ -1,7 +1,9 @@
 from abc import ABC, abstractmethod
 from uuid import UUID
 
+from sqlalchemy.orm import joinedload
 from sqlalchemy.orm import selectinload
+from sqlalchemy.orm import subqueryload
 from sqlmodel import select
 from sqlmodel.ext.asyncio.session import AsyncSession
 

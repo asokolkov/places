@@ -23,6 +23,11 @@ class UserPlaceLink(SQLModel, table=True):
     status: PlaceStatus = Column(Enum(PlaceStatus))
 
 
+class PlacelistPlaceLink(SQLModel, table=True):
+    placelist_id: UUID | None = Field(default=None, foreign_key="placelist.id", primary_key=True)
+    place_id: UUID | None = Field(default=None, foreign_key="place.id", primary_key=True)
+
+
 class User(SQLModel, table=True):
     id: UUID = Field(primary_key=True, default_factory=uuid4)
     mail: str
@@ -38,6 +43,7 @@ class Placelist(SQLModel, table=True):
     name: str
     author_id: UUID
     users: list["User"] = Relationship(link_model=UserPlacelistLink, back_populates="placelists")
+    places: list["Place"] = Relationship(link_model=PlacelistPlaceLink, back_populates="placelists")
 
 
 class Place(SQLModel, table=True):
@@ -47,18 +53,4 @@ class Place(SQLModel, table=True):
     latitude: float
     longitude: float
     users: list["User"] = Relationship(link_model=UserPlaceLink, back_populates="places")
-
-
-#
-#
-# class UserPlaceAssociationEntity(Base):
-#     __tablename__ = 'user_place_association'
-#     user_id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), ForeignKey(UserEntity.id), primary_key=True)
-#     place_id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), ForeignKey(PlaceEntity.id), primary_key=True)
-#     status: Mapped[PlaceStatus] = mapped_column(Enum(PlaceStatus))
-#
-#
-# class PlacePlacelistAssociationEntity(Base):
-#     __tablename__ = 'place_placelist_association'
-#     place_id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), ForeignKey(PlaceEntity.id), primary_key=True)
-#     placelist_id: Mapped[UUID] = mapped_column(UUID(as_uuid=True), ForeignKey(PlacelistEntity.id), primary_key=True)
+    placelists: list["Placelist"] = Relationship(link_model=PlacelistPlaceLink, back_populates="places")

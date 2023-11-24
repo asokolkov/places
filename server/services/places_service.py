@@ -36,7 +36,7 @@ class PlacesService(AbstractPlacesService):
             result = PlacesList(places=[])
             places = await uow.places.get_by_content(content)
             for place in places:
-                link = await uow.places.get_link(place.id, user_id)
+                link = await uow.places.get_user_link(place.id, user_id)
                 place_model = Place(**place.dict(), status=PlaceStatus.NEVER_BEEN if link is None else link.status)
                 result.places.append(place_model)
             return result
@@ -54,15 +54,15 @@ class PlacesService(AbstractPlacesService):
             place_to_update = await uow.places.get(place_update.id)
             if place_to_update is None:
                 return None
-            link_to_update = await uow.places.get_link(place_update.id, user_id)
+            link_to_update = await uow.places.get_user_link(place_update.id, user_id)
             if link_to_update is None:
                 link = UserPlaceLink(place_id=place_update.id, user_id=user_id, status=PlaceStatusEntity(place_update.status.value))
-                created_link = await uow.places.create_link(link)
+                created_link = await uow.places.create_user_link(link)
                 result = Place(**place_to_update.dict(), status=created_link.status)
                 await uow.commit()
                 return result
             else:
-                updated_link = await uow.places.update_link(link_to_update, PlaceStatusEntity(place_update.status))
+                updated_link = await uow.places.update_user_link(link_to_update, PlaceStatusEntity(place_update.status))
                 result = Place(**place_to_update.dict(), status=updated_link.status)
                 await uow.commit()
                 return result
