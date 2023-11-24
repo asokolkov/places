@@ -1,3 +1,6 @@
+from datetime import datetime
+from datetime import timezone
+
 from fastapi import HTTPException, Request
 from starlette import status
 
@@ -21,7 +24,7 @@ placelists_service = PlacelistsService(uow)
 async def get_current_user(request: Request) -> UserIdentity:
     token = request.cookies.get("session_token")
     user = await cryptography.decode_token(token)
-    if user is None:
+    if user is None or user['expiration_date'] < datetime.now(timezone.utc).timestamp():
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Could not validate credentials",

@@ -145,8 +145,8 @@ class IdentityService(AbstractIdentityService):
             await uow.commit()
             return result
 
-    async def _build_entity_with_token(self, entity):
+    async def _build_entity_with_token(self, entity) -> (UserIdentity | None, str | None, datetime | None):
         result = UserIdentity.from_orm(entity)
         expiration_date = await self._cryptography.get_expiration_date()
-        token = await self._cryptography.encode_token(entity.dict(), expiration_date)
+        token = await self._cryptography.encode_token(result.dict(), expiration_date)
         return result, token, expiration_date
