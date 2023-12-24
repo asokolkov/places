@@ -1,18 +1,19 @@
 <script lang="ts">
-    import Form from 'components/Form.svelte';
-    import IconPlus from '$lib/icons/IconPlus.svelte';
     import Input from 'components/Input.svelte';
-    import { goto } from '$app/navigation';
+    import Button from 'components/Button.svelte';
+    import IconPlacelistAdd from '$lib/icons/IconPlacelistAdd.svelte';
 </script>
 
-<h1>Создать плейслист</h1>
-<Form
-        submitText="Создать"
-        submitIcon={IconPlus}
-        submitType="primary"
-        action="#"
-        method="POST"
-        onSubmit={() => goto('/saved')}
->
-    <Input type="text" placeholder="Название" />
-</Form>
+<h1 class="text-h1">Создать плейслист</h1>
+<form class="form" method="POST">
+    <Input name="name" type="text" placeholder="Название" />
+    <Button type="submit" icon={IconPlacelistAdd} text="Создать" />
+</form>
+
+<style>
+    .form {
+        display: flex;
+        gap: var(--size-16);
+        flex-direction: column;
+    }
+</style>

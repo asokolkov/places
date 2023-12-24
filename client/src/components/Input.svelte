@@ -5,6 +5,7 @@
     import IconPassword from '$lib/icons/IconPassword.svelte';
     import IconEmail from '$lib/icons/IconEmail.svelte';
 
+    export let name: string;
     export let type: 'number' | 'search' | 'text' | 'email' | 'password';
     export let placeholder: string;
     export let onInput: (value: string) => void = () => { };
@@ -31,6 +32,7 @@
             on:input={() => onInput(inputElement.value)}
             bind:this={inputElement}
             bind:value={inputValue}
+            {name}
             {placeholder}
             class="input-field"
     />

@@ -19,7 +19,7 @@
         axios.get(`http://localhost:8000/placelists`)
             .then(response => {
                 searchStatus = response.data.length > 0 ? 'found' : 'notFound';
-                placelists = response.data
+                placelists = response.data;
             })
             .catch(error => console.error('Error:', error));
     }

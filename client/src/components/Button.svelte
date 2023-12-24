@@ -1,17 +1,16 @@
 <script lang="ts">
     import type { ComponentType } from 'svelte';
 
-    export let type: 'primary' | 'secondary' | 'tertiary' | 'destructive';
+    export let type: 'primary' | 'secondary' | 'tertiary' | 'destructive' | 'submit';
     export let icon: ComponentType | undefined = undefined;
     export let text: string;
-    export let submit: boolean = false;
     export let onClick: () => void = () => {};
 </script>
 
 <button
-        type={submit ? 'submit' : 'button'}
+        type={type === 'submit' ? 'submit' : 'button'}
         class="button"
-        class:button__primary={type === 'primary'}
+        class:button__primary={type === 'primary' || type === 'submit'}
         class:button__secondary={type === 'secondary'}
         class:button__destructive={type === 'destructive'}
         on:click={onClick}
