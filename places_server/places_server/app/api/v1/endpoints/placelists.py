@@ -47,9 +47,7 @@ async def update(
 
 
 @placelists_router.post("/")
-async def create(
-    placelist_create: PlacelistCreate, user: User = Depends(get_current_user)
-) -> Placelist:
+async def create(placelist_create: PlacelistCreate, user: User = Depends(get_current_user)) -> Placelist:
     placelist = await placelists_service.create(placelist_create, user.id)
     if placelist is None:
         raise HTTPException(

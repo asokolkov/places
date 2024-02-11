@@ -24,13 +24,9 @@ users_repository = UsersRepository()
 places_repository = PlacesRepository()
 placelists_repository = PlacelistsRepository()
 
-users_service = UsersService(
-    database, placelists_repository, users_repository, places_repository, cryptography
-)
+users_service = UsersService(database, placelists_repository, users_repository, places_repository, cryptography)
 places_service = PlacesService(database, placelists_repository, users_repository, places_repository)
-placelists_service = PlacelistsService(
-    database, placelists_repository, users_repository, places_repository
-)
+placelists_service = PlacelistsService(database, placelists_repository, users_repository, places_repository)
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="/api/v1/users/signin")
 

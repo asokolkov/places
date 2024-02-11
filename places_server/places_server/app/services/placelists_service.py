@@ -24,9 +24,7 @@ class AbstractPlacelistsService(ABC):
         raise NotImplementedError()
 
     @abstractmethod
-    async def update(
-        self, placelist_id: UUID, placelist_update: PlacelistUpdate, user_id: UUID
-    ) -> Placelist | None:
+    async def update(self, placelist_id: UUID, placelist_update: PlacelistUpdate, user_id: UUID) -> Placelist | None:
         raise NotImplementedError()
 
     @abstractmethod
@@ -55,8 +53,7 @@ class PlacelistsService(AbstractPlacelistsService):
         async with self._database.session_maker() as session:
             placelists = await self._placelists_repository.get_by_content(session, content)
             compressed_placelists = [
-                PlacelistCompressed.model_validate(placelist, from_attributes=True) for placelist in
-                placelists
+                PlacelistCompressed.model_validate(placelist, from_attributes=True) for placelist in placelists
             ]
             return PlacelistsList(placelists=compressed_placelists)
 
@@ -68,18 +65,14 @@ class PlacelistsService(AbstractPlacelistsService):
 
             return Placelist.model_validate(entity, from_attributes=True)
 
-    async def update(
-        self, placelist_id: UUID, placelist_update: PlacelistUpdate, user_id: UUID
-    ) -> Placelist | None:
+    async def update(self, placelist_id: UUID, placelist_update: PlacelistUpdate, user_id: UUID) -> Placelist | None:
         async with self._database.session_maker() as session:
             placelist = await self._placelists_repository.get(session, placelist_id)
             if placelist is None or placelist.author.id != user_id:
                 return None
 
             placelist.name = placelist_update.name
-            new_places = await self._places_repository.get_by_ids(
-                session, placelist_update.places_ids
-            )
+            new_places = await self._places_repository.get_by_ids(session, placelist_update.places_ids)
             placelist.places = new_places
 
             await session.commit()
@@ -92,9 +85,7 @@ class PlacelistsService(AbstractPlacelistsService):
             if user is None:
                 return None
 
-            entity_to_create = PlacelistEntity(
-                name=placelist_create.name, author=user, places=[], users=[user]
-            )
+            entity_to_create = PlacelistEntity(name=placelist_create.name, author=user, places=[], users=[user])
             created_entity = await self._placelists_repository.create(session, entity_to_create)
 
             await session.commit()

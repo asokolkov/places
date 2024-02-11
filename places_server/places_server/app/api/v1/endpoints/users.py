@@ -12,6 +12,7 @@ from app.models.user import User
 from app.models.user import UserCompressed
 from app.models.user import UserPlacelists
 from app.models.user import UserSignup
+from app.models.user import UserToken
 from app.models.user import UserUpdate
 
 
@@ -40,14 +41,14 @@ async def get_by_id(user_id: UUID) -> UserCompressed:
 
 
 @users_router.post("/signin")
-async def signin(form_data: OAuth2PasswordRequestForm = Depends()) -> dict[str, str]:
+async def signin(form_data: OAuth2PasswordRequestForm = Depends()) -> UserToken:
     token = await users_service.signin(form_data.username, form_data.password)
     if token is None:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Incorrect username or password",
         )
-    return {"access_token": token, "token_type": "bearer"}
+    return token
 
 
 @users_router.post("/signup")

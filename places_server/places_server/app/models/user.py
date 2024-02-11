@@ -42,8 +42,8 @@ class UserSignup(BaseModel):
 
 
 class UserToken(BaseModel):
-    type: str
-    value: str
+    access_token: str
+    token_type: str
 
 
 class UserWithToken(BaseModel):
