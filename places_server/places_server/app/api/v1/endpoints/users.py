@@ -1,6 +1,8 @@
 from uuid import UUID
 
-from fastapi import APIRouter, Depends, HTTPException
+from fastapi import APIRouter
+from fastapi import Depends
+from fastapi import HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
 from starlette import status
 
@@ -9,9 +11,9 @@ from app.api.v1.dependencies import users_service
 from app.models.user import User
 from app.models.user import UserCompressed
 from app.models.user import UserPlacelists
-from app.models.user import UserWithToken
 from app.models.user import UserSignup
 from app.models.user import UserUpdate
+
 
 users_router = APIRouter(prefix="/users", tags=["Users"])
 

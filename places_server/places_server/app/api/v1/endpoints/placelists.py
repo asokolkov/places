@@ -1,6 +1,7 @@
 from uuid import UUID
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter
+from fastapi import Depends
 from fastapi import HTTPException
 from starlette import status
 
@@ -11,6 +12,7 @@ from app.models.placelist import PlacelistCreate
 from app.models.placelist import PlacelistsList
 from app.models.placelist import PlacelistUpdate
 from app.models.user import User
+
 
 placelists_router = APIRouter(prefix="/placelists", tags=["Placelists"])
 
@@ -45,7 +47,9 @@ async def update(
 
 
 @placelists_router.post("/")
-async def create(placelist_create: PlacelistCreate, user: User = Depends(get_current_user)) -> Placelist:
+async def create(
+    placelist_create: PlacelistCreate, user: User = Depends(get_current_user)
+) -> Placelist:
     placelist = await placelists_service.create(placelist_create, user.id)
     if placelist is None:
         raise HTTPException(

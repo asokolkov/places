@@ -1,13 +1,15 @@
-from abc import ABC, abstractmethod
+from abc import ABC
+from abc import abstractmethod
 from uuid import UUID
 
-from app.models.user import User, UserPlacelists
+from app.models.user import User
 from app.models.user import UserCompressed
 from app.models.user import UserPlacelist
-from app.models.user import UserWithToken
+from app.models.user import UserPlacelists
 from app.models.user import UserSignup
 from app.models.user import UserToken
 from app.models.user import UserUpdate
+from app.models.user import UserWithToken
 from app.utils.cryptography import AbstractCryptography
 from database.database import AbstractDatabase
 from database.entities import UserEntity
@@ -71,7 +73,9 @@ class UsersService(AbstractUsersService):
                 author = UserCompressed.model_validate(placelist.author, from_attributes=True)
                 placelist_dict = placelist.__dict__
                 placelist_dict["author"] = author
-                placelists.append(UserPlacelist.model_validate(placelist_dict, from_attributes=True))
+                placelists.append(
+                    UserPlacelist.model_validate(placelist_dict, from_attributes=True)
+                )
             return UserPlacelists(placelists=placelists)
 
     async def signup(self, user_signup: UserSignup) -> User | None:
@@ -80,7 +84,9 @@ class UsersService(AbstractUsersService):
             if user_by_mail is not None:
                 return None
 
-            user_by_username = await self._users_repository.get_by_username(session, user_signup.username)
+            user_by_username = await self._users_repository.get_by_username(
+                session, user_signup.username
+            )
             if user_by_username is not None:
                 return None
 
@@ -108,20 +114,26 @@ class UsersService(AbstractUsersService):
             return token
 
     async def update(self, user_update: UserUpdate, user_id: UUID) -> UserWithToken | None:
-        async with self._database.session_maker() as session:
+        async with (self._database.session_maker() as session):
             user = await self._users_repository.get(session, user_id)
             if user is None:
                 return None
 
-            hashes_similar = await self._cryptography.similar_hashes(user_update.old_password, user.password)
+            hashes_similar = await self._cryptography.similar_hashes(
+                user_update.old_password, user.password
+            )
             if not hashes_similar:
                 return None
 
-            existing_entity_by_mail = await self._users_repository.get_by_mail(session, user_update.mail)
+            existing_entity_by_mail = await self._users_repository.get_by_mail(
+                session, user_update.mail
+            )
             if existing_entity_by_mail is not None and existing_entity_by_mail.id != user.id:
                 return None
 
-            existing_entity_by_username = await self._users_repository.get_by_username(session, user_update.username)
+            existing_entity_by_username = await self._users_repository.get_by_username(
+                session, user_update.username
+            )
             if existing_entity_by_username is not None and existing_entity_by_username.id != user.id:
                 return None
 
@@ -135,6 +147,8 @@ class UsersService(AbstractUsersService):
             await session.commit()
 
             user_model = User.model_validate(user, from_attributes=True)
-            token = UserToken(type="bearer", value=await self._cryptography.encode_token(user_model))
+            token = UserToken(
+                type="bearer", value=await self._cryptography.encode_token(user_model)
+            )
 
             return UserWithToken(**user_model.dict(), token=token)

@@ -1,4 +1,5 @@
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter
+from fastapi import Depends
 from fastapi import HTTPException
 from starlette import status
 
@@ -8,6 +9,7 @@ from app.models.place import Place
 from app.models.place import PlaceCreate
 from app.models.place import PlacesList
 from app.models.user import User
+
 
 places_router = APIRouter(prefix="/places", tags=["Places"])
 

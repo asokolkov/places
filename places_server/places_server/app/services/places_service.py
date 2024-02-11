@@ -4,9 +4,9 @@ from uuid import UUID
 
 from app.models.place import Place
 from app.models.place import PlaceCreate
+from app.models.place import PlacesList
 from database.database import AbstractDatabase
 from database.entities import PlaceEntity
-from app.models.place import PlacesList
 from database.repositories.placelists_repository import AbstractPlacelistsRepository
 from database.repositories.places_repository import AbstractPlacesRepository
 from database.repositories.users_repository import AbstractUsersRepository

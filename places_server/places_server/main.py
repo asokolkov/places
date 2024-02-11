@@ -1,6 +1,6 @@
+import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-import uvicorn
 
 from app.api.api import api_router
 from configs.base import APP_NAME
