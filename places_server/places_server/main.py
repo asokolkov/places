@@ -2,13 +2,11 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from app.api.api import api_router
-from configs.base import APP_NAME
-from configs.local import APP_HOST
-from configs.local import APP_PORT
+from places_server.configs import settings
+from places_server.app.api.api import api_router
 
 
-app = FastAPI(title=APP_NAME)
+app = FastAPI(title=settings.APP_NAME)
 
 app.add_middleware(
     CORSMiddleware,
@@ -22,7 +20,7 @@ app.include_router(api_router)
 
 
 def main() -> None:
-    uvicorn.run(app, host=APP_HOST, port=APP_PORT)
+    uvicorn.run(app, host=settings.APP_HOST, port=settings.APP_PORT)
 
 
 if __name__ == "__main__":
