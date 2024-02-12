@@ -2,20 +2,20 @@ from abc import ABC
 from abc import abstractmethod
 from uuid import UUID
 
-from app.models.user import User
-from app.models.user import UserCompressed
-from app.models.user import UserPlacelist
-from app.models.user import UserPlacelists
-from app.models.user import UserSignup
-from app.models.user import UserToken
-from app.models.user import UserUpdate
-from app.models.user import UserWithToken
-from app.utils.cryptography import AbstractCryptography
-from database.database import AbstractDatabase
-from database.entities import UserEntity
-from database.repositories.placelists_repository import AbstractPlacelistsRepository
-from database.repositories.places_repository import AbstractPlacesRepository
-from database.repositories.users_repository import AbstractUsersRepository
+from places_server.app.models.user import User
+from places_server.app.models.user import UserCompressed
+from places_server.app.models.user import UserPlacelist
+from places_server.app.models.user import UserPlacelists
+from places_server.app.models.user import UserSignup
+from places_server.app.models.user import UserToken
+from places_server.app.models.user import UserUpdate
+from places_server.app.models.user import UserWithToken
+from places_server.app.utils.cryptography import AbstractCryptography
+from places_server.database.database import AbstractDatabase
+from places_server.database.entities import UserEntity
+from places_server.database.repositories.placelists_repository import AbstractPlacelistsRepository
+from places_server.database.repositories.places_repository import AbstractPlacesRepository
+from places_server.database.repositories.users_repository import AbstractUsersRepository
 
 
 class AbstractUsersService(ABC):

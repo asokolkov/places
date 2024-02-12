@@ -3,12 +3,12 @@ from fastapi import Depends
 from fastapi import HTTPException
 from starlette import status
 
-from app.api.v1.dependencies import get_current_user
-from app.api.v1.dependencies import places_service
-from app.models.place import Place
-from app.models.place import PlaceCreate
-from app.models.place import PlacesList
-from app.models.user import User
+from places_server.app.api.v1.dependencies import get_current_user
+from places_server.app.api.v1.dependencies import places_service
+from places_server.app.models.place import Place
+from places_server.app.models.place import PlaceCreate
+from places_server.app.models.place import PlacesList
+from places_server.app.models.user import User
 
 
 places_router = APIRouter(prefix="/places", tags=["Places"])

@@ -4,11 +4,11 @@ from passlib.context import CryptContext
 from sqlalchemy.ext.asyncio import async_sessionmaker
 from sqlalchemy.ext.asyncio import create_async_engine
 
-from database.database import AbstractDatabase
-from database.entities import Base
-from database.entities import PlaceEntity
-from database.entities import PlacelistEntity
-from database.entities import UserEntity
+from places_server.database.database import AbstractDatabase
+from places_server.database.entities import Base
+from places_server.database.entities import PlaceEntity
+from places_server.database.entities import PlacelistEntity
+from places_server.database.entities import UserEntity
 
 
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")

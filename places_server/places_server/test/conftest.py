@@ -2,24 +2,24 @@ import asyncio
 
 import pytest
 
-from app.services.placelists_service import AbstractPlacelistsService
-from app.services.placelists_service import PlacelistsService
-from app.services.places_service import AbstractPlacesService
-from app.services.places_service import PlacesService
-from app.services.users_service import AbstractUsersService
-from app.services.users_service import UsersService
-from app.utils.cryptography import AbstractCryptography
-from app.utils.cryptography import Cryptography
-from database.entities import PlaceEntity
-from database.entities import PlacelistEntity
-from database.entities import UserEntity
-from database.repositories.placelists_repository import AbstractPlacelistsRepository
-from database.repositories.placelists_repository import PlacelistsRepository
-from database.repositories.places_repository import AbstractPlacesRepository
-from database.repositories.places_repository import PlacesRepository
-from database.repositories.users_repository import AbstractUsersRepository
-from database.repositories.users_repository import UsersRepository
-from test.fake_classes import FakeDatabase
+from places_server.app.services.placelists_service import AbstractPlacelistsService
+from places_server.app.services.placelists_service import PlacelistsService
+from places_server.app.services.places_service import AbstractPlacesService
+from places_server.app.services.places_service import PlacesService
+from places_server.app.services.users_service import AbstractUsersService
+from places_server.app.services.users_service import UsersService
+from places_server.app.utils.cryptography import AbstractCryptography
+from places_server.app.utils.cryptography import Cryptography
+from places_server.database.entities import PlaceEntity
+from places_server.database.entities import PlacelistEntity
+from places_server.database.entities import UserEntity
+from places_server.database.repositories.placelists_repository import AbstractPlacelistsRepository
+from places_server.database.repositories.placelists_repository import PlacelistsRepository
+from places_server.database.repositories.places_repository import AbstractPlacesRepository
+from places_server.database.repositories.places_repository import PlacesRepository
+from places_server.database.repositories.users_repository import AbstractUsersRepository
+from places_server.database.repositories.users_repository import UsersRepository
+from places_server.test.fake_classes import FakeDatabase
 
 
 @pytest.fixture(scope="function")

@@ -6,14 +6,14 @@ from fastapi import HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
 from starlette import status
 
-from app.api.v1.dependencies import get_current_user
-from app.api.v1.dependencies import users_service
-from app.models.user import User
-from app.models.user import UserCompressed
-from app.models.user import UserPlacelists
-from app.models.user import UserSignup
-from app.models.user import UserToken
-from app.models.user import UserUpdate
+from places_server.app.api.v1.dependencies import get_current_user
+from places_server.app.api.v1.dependencies import users_service
+from places_server.app.models.user import User
+from places_server.app.models.user import UserCompressed
+from places_server.app.models.user import UserPlacelists
+from places_server.app.models.user import UserSignup
+from places_server.app.models.user import UserToken
+from places_server.app.models.user import UserUpdate
 
 
 users_router = APIRouter(prefix="/users", tags=["Users"])

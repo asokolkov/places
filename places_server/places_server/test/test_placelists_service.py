@@ -2,12 +2,12 @@ from uuid import uuid4
 
 import pytest
 
-from app.models.placelist import PlacelistCreate
-from app.models.placelist import PlacelistUpdate
-from app.services.placelists_service import AbstractPlacelistsService
-from database.entities import PlaceEntity
-from database.entities import PlacelistEntity
-from database.entities import UserEntity
+from places_server.app.models.placelist import PlacelistCreate
+from places_server.app.models.placelist import PlacelistUpdate
+from places_server.app.services.placelists_service import AbstractPlacelistsService
+from places_server.database.entities import PlaceEntity
+from places_server.database.entities import PlacelistEntity
+from places_server.database.entities import UserEntity
 
 
 @pytest.mark.asyncio
