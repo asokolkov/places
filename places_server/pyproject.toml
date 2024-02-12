@@ -29,6 +29,9 @@ pytest-cov = "^4.1.0"
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
 
+[tool.poetry.scripts]
+main = "places_server.main:main"
+
 [tool.ruff]
 exclude = [
     ".bzr",
