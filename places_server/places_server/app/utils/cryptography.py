@@ -7,9 +7,9 @@ from datetime import timezone
 import jwt
 from passlib.context import CryptContext
 
-from places_server.configs import settings
 from places_server.app.models.user import User
 from places_server.app.models.user import UserDecodedToken
+from places_server.configs import settings
 
 
 class AbstractCryptography(ABC):

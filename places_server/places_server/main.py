@@ -2,8 +2,8 @@ import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from places_server.configs import settings
 from places_server.app.api.api import api_router
+from places_server.configs import settings
 
 
 app = FastAPI(title=settings.APP_NAME)
