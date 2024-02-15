@@ -34,6 +34,7 @@ class UsersRepository(AbstractUsersRepository):
             select(UserEntity)
             .where(UserEntity.id == entity_id)
             .options(selectinload(UserEntity.saved_placelists).selectinload(PlacelistEntity.author))
+            .options(selectinload(UserEntity.created_placelists))
         )
         result = await session.scalars(statement)
         return result.first()

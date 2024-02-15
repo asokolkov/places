@@ -6,6 +6,7 @@ from fastapi import HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
 from starlette import status
 
+from places_server.app.models.user import UserWithToken
 from places_server.app.api.v1.dependencies import get_current_user
 from places_server.app.api.v1.dependencies import users_service
 from places_server.app.models.user import User
@@ -63,7 +64,7 @@ async def signup(user_signup: UserSignup) -> User:
 
 
 @users_router.put("/current")
-async def update(user_update: UserUpdate, user: User = Depends(get_current_user)) -> User:
+async def update(user_update: UserUpdate, user: User = Depends(get_current_user)) -> UserWithToken:
     updated_user = await users_service.update(user_update, user.id)
     if updated_user is None:
         raise HTTPException(
