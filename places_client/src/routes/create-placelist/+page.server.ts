@@ -18,6 +18,6 @@ export const actions = {
 			return { success: false };
 		}
 
-		throw redirect(302, routes.SAVED);
+		redirect(302, routes.SAVED);
 	},
 };
