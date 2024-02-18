@@ -7,7 +7,7 @@ import { redirect } from "@sveltejs/kit";
 export async function load({ parent }) {
 	const parentData = await parent();
 	if (parentData.user !== null) {
-		throw redirect(302, routes.DISCOVER);
+		redirect(302, routes.DISCOVER);
 	}
 }
 

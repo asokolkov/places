@@ -40,6 +40,6 @@ export const actions = {
 			return { success: false };
 		}
 
-		throw redirect(302, `/placelists/${placelist.id}`);
+		redirect(302, `/placelists/${placelist.id}`);
 	},
 };
