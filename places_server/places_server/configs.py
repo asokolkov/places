@@ -5,8 +5,8 @@ class Settings(BaseSettings):
     DEBUG: bool = True
 
     APP_NAME: str = "Places Server"
-    APP_HOST: str = "localhost"
-    APP_PORT: int = 8000
+    APP_HOST: str = "0.0.0.0"
+    APP_PORT: int = 8200
 
     JWT_ALGORITHM: str = "HS256"
     JWT_TOKEN_EXPIRE_DAYS: int = 30
