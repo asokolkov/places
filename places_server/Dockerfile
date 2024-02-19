@@ -24,4 +24,6 @@ COPY --from=build ${VIRTUAL_ENV} ${VIRTUAL_ENV}
 
 COPY places_server ./places_server
 
+EXPOSE 8200
+
 ENTRYPOINT ["python", "-m", "places_server.main"]
