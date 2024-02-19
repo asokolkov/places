@@ -1,15 +1,15 @@
-from abc import ABC, abstractmethod
-from datetime import datetime, timedelta, timezone
-from typing import Any
+from abc import ABC
+from abc import abstractmethod
+from datetime import datetime
+from datetime import timedelta
+from datetime import timezone
 
 import jwt
 from passlib.context import CryptContext
 
-from app.models.user import User
-from app.models.user import UserDecodedToken
-from configs.base import JWT_ALGORITHM
-from configs.base import JWT_TOKEN_EXPIRE_DAYS
-from configs.local import JWT_SECRET_KEY
+from places_server.app.models.user import User
+from places_server.app.models.user import UserDecodedToken
+from places_server.configs import settings
 
 
 class AbstractCryptography(ABC):
@@ -36,7 +36,7 @@ class Cryptography(AbstractCryptography):
 
     async def decode_token(self, token: str) -> UserDecodedToken | None:
         try:
-            decoded_token = jwt.decode(token, JWT_SECRET_KEY, algorithms=[JWT_ALGORITHM])
+            decoded_token = jwt.decode(token, settings.JWT_SECRET_KEY, algorithms=[settings.JWT_ALGORITHM])
             return UserDecodedToken.model_validate(decoded_token, from_attributes=True)
         except Exception as _:
             return None
@@ -44,9 +44,9 @@ class Cryptography(AbstractCryptography):
     async def encode_token(self, user: User) -> str:
         dict_user = user.dict()
         dict_user["id"] = str(dict_user["id"])
-        expiration_date = datetime.now(timezone.utc) + timedelta(days=JWT_TOKEN_EXPIRE_DAYS)
+        expiration_date = datetime.now(timezone.utc) + timedelta(days=settings.JWT_TOKEN_EXPIRE_DAYS)
         dict_user["expiration_date"] = expiration_date.timestamp()
-        return jwt.encode(dict_user, JWT_SECRET_KEY, algorithm=JWT_ALGORITHM)
+        return jwt.encode(dict_user, settings.JWT_SECRET_KEY, algorithm=settings.JWT_ALGORITHM)
 
     async def similar_hashes(self, target: str, source: str) -> bool:
         try:

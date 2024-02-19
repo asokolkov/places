@@ -4,10 +4,10 @@ import pytest
 from sqlalchemy import select
 from sqlalchemy.orm import selectinload
 
-from database.entities import PlaceEntity
-from database.entities import PlacelistEntity
-from database.repositories.places_repository import AbstractPlacesRepository
-from test.fake_classes import FakeDatabase
+from places_server.database.entities import PlaceEntity
+from places_server.database.entities import PlacelistEntity
+from places_server.database.repositories.places_repository import AbstractPlacesRepository
+from places_server.test.fake_classes import FakeDatabase
 
 
 @pytest.mark.asyncio

@@ -1,11 +1,12 @@
-from abc import ABC, abstractmethod
+from abc import ABC
+from abc import abstractmethod
 from uuid import UUID
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
-from database.entities import PlacelistEntity
+from places_server.database.entities import PlacelistEntity
 
 
 class AbstractPlacelistsRepository(ABC):

@@ -2,14 +2,14 @@ from abc import ABC
 from abc import abstractmethod
 from uuid import UUID
 
-from app.models.place import Place
-from app.models.place import PlaceCreate
-from database.database import AbstractDatabase
-from database.entities import PlaceEntity
-from app.models.place import PlacesList
-from database.repositories.placelists_repository import AbstractPlacelistsRepository
-from database.repositories.places_repository import AbstractPlacesRepository
-from database.repositories.users_repository import AbstractUsersRepository
+from places_server.app.models.place import Place
+from places_server.app.models.place import PlaceCreate
+from places_server.app.models.place import PlacesList
+from places_server.database.database import AbstractDatabase
+from places_server.database.entities import PlaceEntity
+from places_server.database.repositories.placelists_repository import AbstractPlacelistsRepository
+from places_server.database.repositories.places_repository import AbstractPlacesRepository
+from places_server.database.repositories.users_repository import AbstractUsersRepository
 
 
 class AbstractPlacesService(ABC):

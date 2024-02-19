@@ -1,12 +1,13 @@
-from abc import ABC, abstractmethod
+from abc import ABC
+from abc import abstractmethod
 from uuid import UUID
 
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.orm import selectinload
 
-from database.entities import PlacelistEntity
-from database.entities import UserEntity
+from places_server.database.entities import PlacelistEntity
+from places_server.database.entities import UserEntity
 
 
 class AbstractUsersRepository(ABC):
@@ -33,6 +34,7 @@ class UsersRepository(AbstractUsersRepository):
             select(UserEntity)
             .where(UserEntity.id == entity_id)
             .options(selectinload(UserEntity.saved_placelists).selectinload(PlacelistEntity.author))
+            .options(selectinload(UserEntity.created_placelists))
         )
         result = await session.scalars(statement)
         return result.first()

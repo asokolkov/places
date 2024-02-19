@@ -2,17 +2,16 @@ from abc import ABC
 from abc import abstractmethod
 from uuid import UUID
 
-from app.models.placelist import PlacelistCreate
-from app.models.placelist import PlacelistUpdate
-from database.database import AbstractDatabase
-from app.models.placelist import Placelist
-from app.models.placelist import PlacelistCompressed
-from app.models.placelist import PlacelistsList
-
-from database.entities import PlacelistEntity
-from database.repositories.placelists_repository import AbstractPlacelistsRepository
-from database.repositories.places_repository import AbstractPlacesRepository
-from database.repositories.users_repository import AbstractUsersRepository
+from places_server.app.models.placelist import Placelist
+from places_server.app.models.placelist import PlacelistCompressed
+from places_server.app.models.placelist import PlacelistCreate
+from places_server.app.models.placelist import PlacelistsList
+from places_server.app.models.placelist import PlacelistUpdate
+from places_server.database.database import AbstractDatabase
+from places_server.database.entities import PlacelistEntity
+from places_server.database.repositories.placelists_repository import AbstractPlacelistsRepository
+from places_server.database.repositories.places_repository import AbstractPlacesRepository
+from places_server.database.repositories.users_repository import AbstractUsersRepository
 
 
 class AbstractPlacelistsService(ABC):

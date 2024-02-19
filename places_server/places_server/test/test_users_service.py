@@ -2,10 +2,10 @@ from uuid import uuid4
 
 import pytest
 
-from app.models.user import UserSignup
-from app.models.user import UserUpdate
-from app.services.users_service import AbstractUsersService
-from database.entities import UserEntity
+from places_server.app.models.user import UserSignup
+from places_server.app.models.user import UserUpdate
+from places_server.app.services.users_service import AbstractUsersService
+from places_server.database.entities import UserEntity
 
 
 @pytest.mark.asyncio

@@ -1,19 +1,21 @@
-from abc import ABC, abstractmethod
+from abc import ABC
+from abc import abstractmethod
 from uuid import UUID
 
-from app.models.user import User, UserPlacelists
-from app.models.user import UserCompressed
-from app.models.user import UserPlacelist
-from app.models.user import UserWithToken
-from app.models.user import UserSignup
-from app.models.user import UserToken
-from app.models.user import UserUpdate
-from app.utils.cryptography import AbstractCryptography
-from database.database import AbstractDatabase
-from database.entities import UserEntity
-from database.repositories.placelists_repository import AbstractPlacelistsRepository
-from database.repositories.places_repository import AbstractPlacesRepository
-from database.repositories.users_repository import AbstractUsersRepository
+from places_server.app.models.user import User
+from places_server.app.models.user import UserCompressed
+from places_server.app.models.user import UserPlacelist
+from places_server.app.models.user import UserPlacelists
+from places_server.app.models.user import UserSignup
+from places_server.app.models.user import UserToken
+from places_server.app.models.user import UserUpdate
+from places_server.app.models.user import UserWithToken
+from places_server.app.utils.cryptography import AbstractCryptography
+from places_server.database.database import AbstractDatabase
+from places_server.database.entities import UserEntity
+from places_server.database.repositories.placelists_repository import AbstractPlacelistsRepository
+from places_server.database.repositories.places_repository import AbstractPlacesRepository
+from places_server.database.repositories.users_repository import AbstractUsersRepository
 
 
 class AbstractUsersService(ABC):
@@ -30,7 +32,7 @@ class AbstractUsersService(ABC):
         raise NotImplementedError()
 
     @abstractmethod
-    async def signin(self, mail: str, password: str) -> str | None:
+    async def signin(self, mail: str, password: str) -> UserToken | None:
         raise NotImplementedError()
 
     @abstractmethod
@@ -93,7 +95,7 @@ class UsersService(AbstractUsersService):
 
             return User.model_validate(created_entity, from_attributes=True)
 
-    async def signin(self, mail: str, password: str) -> str | None:
+    async def signin(self, mail: str, password: str) -> UserToken | None:
         async with self._database.session_maker() as session:
             user = await self._users_repository.get_by_mail(session, mail)
             if user is None:
@@ -104,7 +106,8 @@ class UsersService(AbstractUsersService):
                 return None
 
             user_model = User.model_validate(user, from_attributes=True)
-            token: str = await self._cryptography.encode_token(user_model)
+            token = UserToken(access_token=await self._cryptography.encode_token(user_model), token_type="bearer")
+
             return token
 
     async def update(self, user_update: UserUpdate, user_id: UUID) -> UserWithToken | None:
@@ -135,6 +138,6 @@ class UsersService(AbstractUsersService):
             await session.commit()
 
             user_model = User.model_validate(user, from_attributes=True)
-            token = UserToken(type="bearer", value=await self._cryptography.encode_token(user_model))
+            token = UserToken(access_token=await self._cryptography.encode_token(user_model), token_type="bearer")
 
             return UserWithToken(**user_model.dict(), token=token)

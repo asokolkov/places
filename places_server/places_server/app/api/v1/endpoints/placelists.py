@@ -1,16 +1,18 @@
 from uuid import UUID
 
-from fastapi import APIRouter, Depends
+from fastapi import APIRouter
+from fastapi import Depends
 from fastapi import HTTPException
 from starlette import status
 
-from app.api.v1.dependencies import get_current_user
-from app.api.v1.dependencies import placelists_service
-from app.models.placelist import Placelist
-from app.models.placelist import PlacelistCreate
-from app.models.placelist import PlacelistsList
-from app.models.placelist import PlacelistUpdate
-from app.models.user import User
+from places_server.app.api.v1.dependencies import get_current_user
+from places_server.app.api.v1.dependencies import placelists_service
+from places_server.app.models.placelist import Placelist
+from places_server.app.models.placelist import PlacelistCreate
+from places_server.app.models.placelist import PlacelistsList
+from places_server.app.models.placelist import PlacelistUpdate
+from places_server.app.models.user import User
+
 
 placelists_router = APIRouter(prefix="/placelists", tags=["Placelists"])
 

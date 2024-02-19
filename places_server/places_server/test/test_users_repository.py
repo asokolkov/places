@@ -3,9 +3,9 @@ from uuid import uuid4
 import pytest
 from sqlalchemy import select
 
-from database.entities import UserEntity
-from database.repositories.users_repository import AbstractUsersRepository
-from test.fake_classes import FakeDatabase
+from places_server.database.entities import UserEntity
+from places_server.database.repositories.users_repository import AbstractUsersRepository
+from places_server.test.fake_classes import FakeDatabase
 
 
 @pytest.mark.asyncio
