@@ -1,7 +1,7 @@
 <script lang="ts">
     import { goto } from "$app/navigation";
-    import { updatePlacelist } from "$lib/server/clients/placelistsClient";
-    import { getPlacesByContent } from "$lib/server/clients/placesClient";
+    import { updatePlacelist } from "$lib/clients/placelistsClient";
+    import { getPlacesByContent } from "$lib/clients/placesClient";
     import Block from "$lib/components/Block.svelte";
     import Card from "$lib/components/Card.svelte";
     import Input from "$lib/components/Input.svelte";

@@ -1,6 +1,6 @@
 <script lang="ts">
     import { goto } from "$app/navigation";
-    import { getPlacelistsByContent } from "$lib/server/clients/placelistsClient";
+    import { getPlacelistsByContent } from "$lib/clients/placelistsClient";
     import Block from "$lib/components/Block.svelte";
     import Card from "$lib/components/Card.svelte";
     import Input from "$lib/components/Input.svelte";
