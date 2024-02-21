@@ -5,7 +5,7 @@
 		"dev": "vite dev",
 		"build": "vite build",
 		"preview": "vite preview",
-		"start": "export PORT=8100 && ORIGIN=http://localhost:8100 node ./build",
+		"start": "export PORT=8100 && export ORIGIN=http://localhost:8100 && node ./build",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"lint": "prettier --plugin-search-dir . --check . && eslint .",
@@ -38,6 +38,8 @@
 	"dependencies": {
 		"@types/uuid": "^9.0.8",
 		"axios": "^1.6.1",
+		"cors": "^2.8.5",
+		"express": "^4.18.2",
 		"js-cookie": "^3.0.5",
 		"jwt-decode": "^4.0.0"
 	}

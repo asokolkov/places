@@ -1,20 +1,20 @@
 export interface Place {
-	id: string;
-	name: string;
-	address: string;
-	latitude: number;
-	longitude: number;
+    id: string;
+    name: string;
+    address: string;
+    latitude: number;
+    longitude: number;
 }
 
 
 export interface PlacesList {
-	places: Place[];
+    places: Place[];
 }
 
 
 export interface PlaceCreate {
-	name: string;
-	address: string;
-	latitude: number;
-	longitude: number;
+    name: string;
+    address: string;
+    latitude: number;
+    longitude: number;
 }

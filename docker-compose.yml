@@ -1,22 +1,15 @@
 version: '3'
 services:
   places-client:
+    container_name: places-client
     build:
       context: ./places_client
-      dockerfile: Dockerfile
     ports:
       - "8100:8100"
-    networks:
-      - app
 
   places-server:
+    container_name: places-server
     build:
       context: ./places_server
-      dockerfile: Dockerfile
     ports:
       - "8200:8200"
-    networks:
-      - app
-
-networks:
-  app:
