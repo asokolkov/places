@@ -6,11 +6,9 @@ export interface Place {
     longitude: number;
 }
 
-
 export interface PlacesList {
     places: Place[];
 }
-
 
 export interface PlaceCreate {
     name: string;

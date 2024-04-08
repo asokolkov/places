@@ -7,7 +7,6 @@
     import type { PlacelistCompressed } from "$lib/models/placelists";
     import { InputType, SearchStatus } from "$lib/types";
 
-
     let placelists: PlacelistCompressed[] = [];
     let searchStatus: SearchStatus = SearchStatus.Idle;
 
@@ -18,7 +17,8 @@
             return;
         }
         const placelistsList = await getPlacelistsByContent(value);
-        searchStatus = placelistsList.placelists.length > 0 ? SearchStatus.Found : SearchStatus.NotFound;
+        searchStatus =
+            placelistsList.placelists.length > 0 ? SearchStatus.Found : SearchStatus.NotFound;
         placelists = placelistsList.placelists;
     }
 </script>
@@ -27,7 +27,13 @@
 {#if searchStatus === SearchStatus.Found}
     <Block header="Результаты" directionX>
         {#each placelists as { id, name, author }}
-            <Card onClick={() => goto(`/placelists/${id}`)} text={name} hint={author.name} active={false} extended />
+            <Card
+                onClick={() => goto(`/placelists/${id}`)}
+                text={name}
+                hint={author.name}
+                active={false}
+                extended
+            />
         {/each}
     </Block>
 {:else if searchStatus === SearchStatus.NotFound}

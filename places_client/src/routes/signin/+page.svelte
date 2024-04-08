@@ -13,5 +13,9 @@
     <Input name="mail" placeholder="Почта" type={InputType.Email} />
     <Input name="password" placeholder="Пароль" type={InputType.Password} />
     <Button icon={IconSignIn} text="Войти" type={ButtonType.Submit} />
-    <Button onClick={() => goto(routes.SIGNUP)} text="Зарегистрироваться" type={ButtonType.Tertiary} />
+    <Button
+        onClick={() => goto(routes.SIGNUP)}
+        text="Зарегистрироваться"
+        type={ButtonType.Tertiary}
+    />
 </Form>

@@ -2,7 +2,6 @@ import { deletePlacelist, getPlacelist } from "$lib/clients/placelistsClient";
 import { routes, USER_COOKIE_TOKEN_NAME } from "$lib/configs";
 import { redirect } from "@sveltejs/kit";
 
-
 export async function load({ parent, params }) {
     const placelist = await getPlacelist(params.id);
     if (placelist === null) {
@@ -12,10 +11,9 @@ export async function load({ parent, params }) {
     const parentData = await parent();
     return {
         ...parentData,
-        placelist: placelist,
+        placelist: placelist
     };
 }
-
 
 export const actions = {
     async default({ cookies, url }) {
@@ -29,5 +27,5 @@ export const actions = {
             redirect(302, routes.DISCOVER);
         }
         return { success: true };
-    },
+    }
 };

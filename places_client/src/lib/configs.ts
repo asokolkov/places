@@ -8,5 +8,5 @@ export const routes = {
     SIGNUP: "/signup",
     DISCOVER: "/discover",
     SAVED: "/saved",
-    PROFILE: "/profile",
+    PROFILE: "/profile"
 };

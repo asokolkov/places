@@ -5,7 +5,6 @@ import type { PlacelistUpdate } from "$lib/models/placelists";
 import type { PlaceCreate } from "$lib/models/places";
 import { redirect } from "@sveltejs/kit";
 
-
 export const actions = {
     async default({ request, cookies, params }) {
         const formData = Object.fromEntries(await request.formData());
@@ -13,9 +12,9 @@ export const actions = {
             name: formData.name as string,
             address: formData.address as string,
             latitude: 0,
-            longitude: 0,
+            longitude: 0
         };
-        if (Object.values(placeCreate).some(value => value.length === 0)) {
+        if (Object.values(placeCreate).some((value) => value.length === 0)) {
             return { success: false };
         }
 
@@ -32,7 +31,7 @@ export const actions = {
 
         const placelistUpdate: PlacelistUpdate = {
             name: placelist.name,
-            places_ids: placelist.places.map(place => place.id),
+            places_ids: placelist.places.map((place) => place.id)
         };
         placelistUpdate.places_ids.push(createdPlace.id);
         const updatedPlacelist = await updatePlacelist(placelist.id, placelistUpdate, token);
@@ -41,5 +40,5 @@ export const actions = {
         }
 
         redirect(302, `/placelists/${placelist.id}`);
-    },
+    }
 };

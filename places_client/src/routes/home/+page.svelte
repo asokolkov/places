@@ -4,7 +4,6 @@
     import { routes } from "$lib/configs";
     import { ButtonType } from "$lib/types";
 
-
     export let data;
 
     const buttonText = data.user !== null ? "Найти" : "Войти";

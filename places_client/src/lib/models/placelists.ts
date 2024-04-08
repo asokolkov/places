@@ -3,25 +3,21 @@ export interface PlacelistUser {
     name: string;
 }
 
-
 export interface PlacelistCompressed {
     id: string;
     name: string;
     author: PlacelistUser;
 }
 
-
 export interface PlacelistsList {
     placelists: PlacelistCompressed[];
 }
-
 
 export interface PlacelistPlace {
     id: string;
     name: string;
     address: string;
 }
-
 
 export interface Placelist {
     id: string;
@@ -30,11 +26,9 @@ export interface Placelist {
     places: PlacelistPlace[];
 }
 
-
 export interface PlacelistCreate {
     name: string;
 }
-
 
 export interface PlacelistUpdate {
     name: string;

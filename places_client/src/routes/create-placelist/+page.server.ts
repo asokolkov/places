@@ -3,7 +3,6 @@ import { routes, USER_COOKIE_TOKEN_NAME } from "$lib/configs";
 import type { PlacelistCreate } from "$lib/models/placelists";
 import { redirect } from "@sveltejs/kit";
 
-
 export const actions = {
     async default({ request, cookies }) {
         const formData = Object.fromEntries(await request.formData());
@@ -19,5 +18,5 @@ export const actions = {
         }
 
         redirect(302, routes.SAVED);
-    },
+    }
 };

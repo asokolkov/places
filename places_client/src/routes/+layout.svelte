@@ -4,7 +4,6 @@
     import Menu from "$lib/components/Menu.svelte";
     import { routes } from "$lib/configs";
 
-
     export let data;
 </script>
 

@@ -2,12 +2,10 @@
     import { ButtonAction, ButtonType } from "$lib/types";
     import type { ComponentType } from "svelte";
 
-
     export let type: ButtonType;
     export let icon: ComponentType | undefined = undefined;
     export let text: string;
-    export let onClick: () => void = () => {
-    };
+    export let onClick: () => void = () => {};
 </script>
 
 <button

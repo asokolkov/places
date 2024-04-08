@@ -3,14 +3,12 @@ import { routes, USER_COOKIE_TOKEN_NAME } from "$lib/configs";
 import type { UserSignin, UserSignup } from "$lib/models/users";
 import { redirect } from "@sveltejs/kit";
 
-
 export async function load({ parent }) {
     const parentData = await parent();
     if (parentData.user !== null) {
         redirect(302, routes.DISCOVER);
     }
 }
-
 
 export const actions = {
     async default({ request, cookies }) {
@@ -23,9 +21,9 @@ export const actions = {
             name: formData.name as string,
             username: formData.username as string,
             mail: formData.mail as string,
-            password: formData.password as string,
+            password: formData.password as string
         };
-        if (Object.values(userSignup).some(value => value.length === 0)) {
+        if (Object.values(userSignup).some((value) => value.length === 0)) {
             return { success: false };
         }
 
@@ -36,7 +34,7 @@ export const actions = {
 
         const userSignin: UserSignin = {
             username: formData.mail as string,
-            password: formData.password as string,
+            password: formData.password as string
         };
         const token = await signinUser(userSignin);
         if (token === null) {
@@ -46,5 +44,5 @@ export const actions = {
         cookies.set(USER_COOKIE_TOKEN_NAME, token.access_token, { path: "/", secure: false });
 
         return { success: true };
-    },
+    }
 };

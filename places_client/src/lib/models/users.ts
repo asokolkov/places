@@ -6,13 +6,11 @@ export interface User {
     expiration_date: number;
 }
 
-
 export interface UserCompressed {
     id: string;
     name: string;
     username: string;
 }
-
 
 export interface UserSignup {
     name: string;
@@ -21,7 +19,6 @@ export interface UserSignup {
     password: string;
 }
 
-
 export interface UserSignupResponse {
     id: string;
     name: string;
@@ -29,18 +26,15 @@ export interface UserSignupResponse {
     mail: string;
 }
 
-
 export interface UserSignin {
     username: string;
     password: string;
 }
 
-
 export interface UserToken {
     access_token: string;
     token_type: string;
 }
-
 
 export interface UserWithToken {
     id: string;
@@ -49,7 +43,6 @@ export interface UserWithToken {
     mail: string;
     token: UserToken;
 }
-
 
 export interface UserUpdate {
     mail: string;

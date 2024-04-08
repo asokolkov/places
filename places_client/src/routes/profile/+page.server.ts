@@ -4,14 +4,12 @@ import type { UserUpdate } from "$lib/models/users";
 import { decodeToken } from "$lib/services/usersService";
 import { redirect } from "@sveltejs/kit";
 
-
 export async function load({ parent }) {
     const parentData = await parent();
     if (parentData.user === null) {
         redirect(302, routes.HOME);
     }
 }
-
 
 export const actions = {
     async signout({ cookies }) {
@@ -28,9 +26,9 @@ export const actions = {
             username: user.username,
             password: formData.password as string,
             name: formData.name as string,
-            old_password: formData.password as string,
+            old_password: formData.password as string
         };
-        if (Object.values(userUpdate).some(value => value.length === 0)) {
+        if (Object.values(userUpdate).some((value) => value.length === 0)) {
             return { success: false };
         }
 
@@ -53,9 +51,9 @@ export const actions = {
             username: user.username,
             password: formData.password as string,
             name: user.name,
-            old_password: formData.password as string,
+            old_password: formData.password as string
         };
-        if (Object.values(userUpdate).some(value => value.length === 0)) {
+        if (Object.values(userUpdate).some((value) => value.length === 0)) {
             return { success: false };
         }
 
@@ -78,9 +76,9 @@ export const actions = {
             username: user.username,
             password: formData.password as string,
             name: user.name,
-            old_password: formData.old_password as string,
+            old_password: formData.old_password as string
         };
-        if (Object.values(userUpdate).some(value => value.length === 0)) {
+        if (Object.values(userUpdate).some((value) => value.length === 0)) {
             return { success: false };
         }
 
@@ -92,5 +90,5 @@ export const actions = {
         cookies.set(USER_COOKIE_TOKEN_NAME, userUpdateResponse.token.access_token, { path: "/" });
 
         return { success: true };
-    },
+    }
 };

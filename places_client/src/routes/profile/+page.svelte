@@ -6,7 +6,6 @@
     import IconSignOut from "$lib/icons/IconSignOut.svelte";
     import { ButtonType, InputType } from "$lib/types";
 
-
     export let data;
 
     const name = data.user!.name;

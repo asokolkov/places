@@ -9,7 +9,6 @@
     import type { Place } from "$lib/models/places";
     import { InputType, SearchStatus } from "$lib/types";
 
-
     export let placelist: Placelist;
     export let token: string;
 
@@ -30,7 +29,7 @@
     async function onClick(id: string) {
         const placelistUpdate: PlacelistUpdate = {
             name: placelist.name,
-            places_ids: placelist.places.map(place => place.id),
+            places_ids: placelist.places.map((place) => place.id)
         };
         placelistUpdate.places_ids.push(id);
         const updatedPlacelist = await updatePlacelist(placelist.id, placelistUpdate, token);

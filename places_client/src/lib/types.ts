@@ -4,7 +4,6 @@ export const enum SearchStatus {
     NotFound
 }
 
-
 export const enum ButtonType {
     Primary,
     Secondary,
@@ -13,12 +12,10 @@ export const enum ButtonType {
     Submit
 }
 
-
 export const enum ButtonAction {
     Button = "button",
     Submit = "submit"
 }
-
 
 export const enum InputType {
     Number = "number",

@@ -6,12 +6,10 @@
     import type { InputType } from "$lib/types";
     import { onMount } from "svelte";
 
-
     export let name: string;
     export let type: InputType;
     export let placeholder: string;
-    export let onInput: (value: string) => void = () => {
-    };
+    export let onInput: (value: string) => void = () => {};
 
     let inputElement: HTMLInputElement;
     let inputValue: string = "";
@@ -21,7 +19,7 @@
         search: IconSearch,
         text: IconText,
         email: IconEmail,
-        password: IconPassword,
+        password: IconPassword
     };
 
     onMount(() => {

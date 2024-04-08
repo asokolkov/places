@@ -3,7 +3,6 @@
     import { page } from "$app/stores";
     import type { ComponentType } from "svelte";
 
-
     export let icon: ComponentType;
     export let text: string;
     export let route: string;
@@ -19,7 +18,7 @@
 
 <button class="menu-button text-p" class:menu-button__active={active} on:click={handleClick}>
     <svelte:component this={icon} />
-    {#if (active)}
+    {#if active}
         {text}
     {/if}
 </button>

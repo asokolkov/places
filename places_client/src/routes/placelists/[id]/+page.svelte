@@ -1,32 +1,29 @@
 <script lang="ts">
-	import { goto } from "$app/navigation";
-	import { page } from "$app/stores";
-	import { createPlacelist } from "$lib/clients/placelistsClient";
-	import Block from "$lib/components/Block.svelte";
-	import Button from "$lib/components/Button.svelte";
-	import Card from "$lib/components/Card.svelte";
-	import IconPlus from "$lib/icons/IconPlus.svelte";
-	import IconProfileLink from "$lib/icons/IconProfileLink.svelte";
-	import IconSave from "$lib/icons/IconSave.svelte";
-	import IconShare from "$lib/icons/IconShare.svelte";
-	import IconTrash from "$lib/icons/IconTrash.svelte";
-	import type { PlacelistCreate } from "$lib/models/placelists";
-	import { ButtonType } from "$lib/types";
-	import Form from "$lib/components/Form.svelte";
+    import { goto } from "$app/navigation";
+    import { page } from "$app/stores";
+    import { createPlacelist } from "$lib/clients/placelistsClient";
+    import Block from "$lib/components/Block.svelte";
+    import Button from "$lib/components/Button.svelte";
+    import Card from "$lib/components/Card.svelte";
+    import IconPlus from "$lib/icons/IconPlus.svelte";
+    import IconProfileLink from "$lib/icons/IconProfileLink.svelte";
+    import IconSave from "$lib/icons/IconSave.svelte";
+    import IconShare from "$lib/icons/IconShare.svelte";
+    import IconTrash from "$lib/icons/IconTrash.svelte";
+    import type { PlacelistCreate } from "$lib/models/placelists";
+    import { ButtonType } from "$lib/types";
+    import Form from "$lib/components/Form.svelte";
 
-
-	export let data;
+    export let data;
 
     const currentAuthor = data.placelist.author.id === data.user?.id;
     const mainButtonText = currentAuthor ? "Добавить" : "Сохранить";
     const mainButtonIcon = currentAuthor ? IconPlus : IconSave;
     const mainButtonAction = currentAuthor ? onAddPlace : onSavePlacelist;
 
-
     async function onShare() {
         await navigator.clipboard.writeText($page.url.toString());
     }
-
 
     async function onSavePlacelist() {
         const placelistCreate: PlacelistCreate = { name: data.placelist.name };
@@ -35,7 +32,6 @@
             await goto(`/placelists/${placelistCreateResponse.id}`);
         }
     }
-
 
     async function onAddPlace() {
         await goto(`/placelists/${data.placelist.id}/add-place`);
@@ -55,7 +51,12 @@
 </Block>
 <Block directionX>
     <Button icon={IconShare} onClick={onShare} text="Поделиться" type={ButtonType.Tertiary} />
-    <Button icon={mainButtonIcon} onClick={mainButtonAction} text={mainButtonText} type={ButtonType.Primary} />
+    <Button
+        icon={mainButtonIcon}
+        onClick={mainButtonAction}
+        text={mainButtonText}
+        type={ButtonType.Primary}
+    />
 </Block>
 {#if currentAuthor}
     <Form>

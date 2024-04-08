@@ -3,8 +3,7 @@
     export let hint: string;
     export let active: boolean = false;
     export let extended: boolean;
-    export let onClick: () => void = () => {
-    };
+    export let onClick: () => void = () => {};
 </script>
 
 <button class="card" class:card__active={active} class:card__extended={extended} on:click={onClick}>

@@ -6,7 +6,6 @@
     import IconPlacelistAdd from "$lib/icons/IconPlacelistAdd.svelte";
     import { ButtonType } from "$lib/types";
 
-
     export let data;
 </script>
 
@@ -14,10 +13,19 @@
 {#if data.placelists.length > 0}
     <Block>
         {#each data.placelists as { id, name, author }}
-            <Card text={name} hint={author.name} active={false} extended={false}
-                  onClick={() => goto(`/placelists/${id}/`)} />
+            <Card
+                text={name}
+                hint={author.name}
+                active={false}
+                extended={false}
+                onClick={() => goto(`/placelists/${id}/`)}
+            />
         {/each}
     </Block>
 {/if}
-<Button icon={IconPlacelistAdd} onClick={() => goto('/create-placelist')} text="Создать плейслист"
-        type={ButtonType.Primary} />
+<Button
+    icon={IconPlacelistAdd}
+    onClick={() => goto("/create-placelist")}
+    text="Создать плейслист"
+    type={ButtonType.Primary}
+/>

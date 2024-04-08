@@ -6,7 +6,6 @@
     import IconPlus from "$lib/icons/IconPlus.svelte";
     import { ButtonType, InputType } from "$lib/types";
 
-
     export let data;
 
     const placelist = data.placelist;
@@ -14,7 +13,7 @@
 </script>
 
 <h1 class="text-h1">Добавить место</h1>
-<SearchPlaces placelist={placelist} token={token} />
+<SearchPlaces {placelist} {token} />
 <Form header="Создать">
     <Input name="name" placeholder="Название" type={InputType.Text} />
     <Input name="address" placeholder="Адрес" type={InputType.Text} />
