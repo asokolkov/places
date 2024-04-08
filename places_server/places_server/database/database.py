@@ -20,6 +20,8 @@ class Database(AbstractDatabase):
         self.session_maker = async_sessionmaker(self._engine, expire_on_commit=False)
 
     async def create_tables(self) -> None:
+        if not settings.DEBUG:
+            return
         async with self._engine.begin() as connection:
             await connection.run_sync(Base.metadata.drop_all)
             await connection.run_sync(Base.metadata.create_all)

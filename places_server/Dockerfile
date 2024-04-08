@@ -18,12 +18,13 @@ RUN poetry install --without dev --no-root && rm -rf $POETRY_CACHE_DIR
 FROM python:3.12-alpine AS production
 
 ENV VIRTUAL_ENV=/home/.venv \
-    PATH="/home/.venv/bin:$PATH"
+    PATH="/home/.venv/bin:$PATH" \
+    APP_PORT=8200
 
 COPY --from=build ${VIRTUAL_ENV} ${VIRTUAL_ENV}
 
 COPY places_server ./places_server
 
-EXPOSE 8200
+EXPOSE $APP_PORT
 
 ENTRYPOINT ["python", "-m", "places_server.main"]
