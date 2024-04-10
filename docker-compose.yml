@@ -6,10 +6,39 @@ services:
       context: ./places_client
     ports:
       - "8100:8100"
+    restart: unless-stopped
+    networks:
+      - frontend
 
   places-server:
     container_name: places-server
     build:
       context: ./places_server
+    environment:
+      - DEBUG=${DEBUG:-True}
+      - JWT_SECRET_KEY=${JWT_SECRET_KEY:-00000000000000000000000000000000}
+      - DATABASE_URL=${DATABASE_URL:-sqlite+aiosqlite:///}
+    restart: unless-stopped
+    networks:
+      - frontend
+      - backend
+
+  places-db:
+    container_name: places-db
+    image: postgres:latest
     ports:
-      - "8200:8200"
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
+    restart: unless-stopped
+    volumes: 
+      - postgres-data:/var/lib/postgresql/data
+    networks:
+      - backend
+
+volumes:
+  postgres-data:
+
+networks:
+  backend:
+  frontend:

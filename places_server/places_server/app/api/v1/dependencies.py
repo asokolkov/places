@@ -1,4 +1,3 @@
-import asyncio
 from datetime import datetime
 from datetime import timezone
 
@@ -19,7 +18,6 @@ from places_server.database.repositories.users_repository import UsersRepository
 
 
 database = Database()
-asyncio.run(database.create_tables())
 cryptography = Cryptography()
 
 users_repository = UsersRepository()

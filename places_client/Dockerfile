@@ -23,6 +23,4 @@ COPY --from=build /home/build ./build
 
 RUN npm install --omit=dev
 
-EXPOSE 8100
-
 ENTRYPOINT ["npm", "run", "start"]
