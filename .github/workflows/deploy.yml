@@ -60,3 +60,5 @@ jobs:
         script: |
           rm -rf places
           git clone https://github.com/asokolkov/places.git
+          cd places
+          sudo docker compose --env-file ${{ secrets.DOCKER_ENV }} up
