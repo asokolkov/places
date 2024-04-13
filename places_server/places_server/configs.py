@@ -13,7 +13,6 @@ class Settings(BaseSettings):
     JWT_SECRET_KEY: str = "00000000000000000000000000000000"
 
     DATABASE_URL: str = "sqlite+aiosqlite:///"
-    DATABASE_URL_ALEMBIC: str = "sqlite:///:memory:"
     DATABASE_ECHO: bool = False
 
 
