@@ -6,6 +6,12 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12
+      - name: Install Node.js dependencies
+        run: npm ci
       - name: Lint
         uses: wearerequired/lint-action@v2.3.0
         with:
