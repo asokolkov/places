@@ -68,4 +68,4 @@ jobs:
           rm -rf places
           git clone https://github.com/asokolkov/places.git
           cd places
-          sudo docker compose up
+          sudo docker compose up -d
