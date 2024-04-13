@@ -28,10 +28,7 @@ jobs:
         run: |
           pip install poetry
           poetry install --with dev
-        working-directory: ./places_server
       - name: Activate virtual environment
         run: source $(poetry env info --path)/bin/activate
-        working-directory: ./places_server
       - name: Lint
         run: make lint
-        working-directory: ./places_server
