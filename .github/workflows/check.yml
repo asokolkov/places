@@ -8,7 +8,6 @@ jobs:
         uses: actions/checkout@v2
       - name: Open client
         run: cd places_client
-      - name: Install dependencies
-        run: npm install
-      - name: Run lint
-        run: npm run lint
+      - name: Lint
+        uses: wearerequired/lint-action@v2.3.0
+            
