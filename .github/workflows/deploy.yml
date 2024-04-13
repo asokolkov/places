@@ -45,9 +45,16 @@ jobs:
         poetry run pytest
       working-directory: places_server
 
-  te:
+  deploy:
     runs-on: ubuntu-latest
     needs: [test-server, lint-client]
     if: github.ref_name == 'main'
     steps:
-    - run: echo 1
+    - uses: actions/checkout@v2
+    - run: |
+      mkdir -p ~/.ssh
+      chmod 700 ~/.ssh
+      ssh-keyscan $SSH_HOST >> ~/.ssh/known_hosts
+      cat $SSH_PRIVATE_KEY > ~/.ssh/id_ed25519
+      chmod 0600 ~/.ssh/id_ed25519
+      ssh -i ~/.ssh/id_ed25519 $SSH_ADDRESS "echo 1"
