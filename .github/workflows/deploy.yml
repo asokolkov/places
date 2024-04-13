@@ -58,9 +58,9 @@ jobs:
         ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
         ssh_host_public_key: ${{ secrets.SSH_PUBLIC_KEYS }}
         docker_env:
-          - DEBUG=${{ secrets.DEBUG }}
-          - DATABASE_URL=${{ secrets.DATABASE_URL }}
-          - JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }}
-          - POSTGRES_USER=${{ secrets.POSTGRES_USER }}
-          - POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
-          - POSTGRES_DB=${{ secrets.POSTGRES_DB }}
+          DEBUG: ${{ secrets.DEBUG }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
+          POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
