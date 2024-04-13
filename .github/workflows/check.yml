@@ -16,16 +16,20 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+      - name: Open server
+        run: |
+          cd places_client
+          ls
       - name: Set up Python 3.12
         uses: actions/setup-python@v2
         with:
           python-version: 3.12
       - name: Install dependencies
         run: |
+          ls
           pip install poetry
           poetry install --with dev
       - name: Activate virtual environment
-        run: |
-          source $(poetry env info --path)/bin/activate
+        run: source $(poetry env info --path)/bin/activate
       - name: Lint
         run: make lint
