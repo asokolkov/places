@@ -52,7 +52,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - run: |
-        echo $SSH_HOST
+        echo ${{ secrets.SSH_HOST }}
         # mkdir -p ~/.ssh
         # chmod 700 ~/.ssh
         # ssh-keyscan $SSH_HOST >> ~/.ssh/known_hosts
