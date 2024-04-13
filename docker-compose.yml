@@ -31,8 +31,6 @@ services:
   places-db:
     container_name: places-db
     image: postgres:latest
-    ports:
-      - "5432:5432"
     environment:
       - POSTGRES_USER=${POSTGRES_USER:-postgres}
       - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-postgres}
