@@ -51,10 +51,15 @@ jobs:
     if: github.ref_name == 'main'
     steps:
     - uses: actions/checkout@v2
-    - run: |
+    - shell: bash
+      env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          SSH_HOST: ${{ secrets.SSH_HOST }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+      run: |
         mkdir -p ~/.ssh
         chmod 700 ~/.ssh
-        ssh-keyscan ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
-        cat ${{ secrets.SSH_PRIVATE_KEY }} > ~/.ssh/id_ed25519
+        ssh-keyscan $SSH_HOST >> ~/.ssh/known_hosts
+        cat $SSH_PRIVATE_KEY > ~/.ssh/id_ed25519
         chmod 0600 ~/.ssh/id_ed25519
-        ssh -i ~/.ssh/id_ed25519 ${{ secrets.SSH_ADDRESS }} "echo 1"
+        ssh -i ~/.ssh/id_ed25519 $SSH_USER@$SSH_HOST "echo 1"
