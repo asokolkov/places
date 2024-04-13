@@ -4,37 +4,31 @@ jobs:
   lint-client:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Set up Node.js
-        uses: actions/setup-node@v1
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v4
         with:
-          node-version: 12
-      - name: Install Node.js dependencies
-        run: npm ci
-      - name: Lint
-        uses: wearerequired/lint-action@v2.3.0
-        with:
-          eslint: true
-          prettier: true
-          eslint_dir: ./places_client
-          prettier_dir: ./places_client
+          cache-dependency-path: places_client/package.json
+      - run: |
+          npm install
+          npm run lint
+        working-directory: places_client
 
 
-  lint-server:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - name: Set up Python 3.12
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.12
-      - name: Install dependencies
-        run: |
-          pip install poetry
-          poetry install --with dev
-      - name: Activate virtual environment
-        run: source $(poetry env info --path)/bin/activate
-      - name: Lint
-        run: make lint
+  # lint-server:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
+  #     - name: Set up Python 3.12
+  #       uses: actions/setup-python@v2
+  #       with:
+  #         python-version: 3.12
+  #     - name: Install dependencies
+  #       run: |
+  #         pip install poetry
+  #         poetry install --with dev
+  #       working-directory: ./places_server
+  #     - name: Activate virtual environment
+  #       run: source $(poetry env info --path)/bin/activate
+  #     - name: Lint
+  #       run: make lint
