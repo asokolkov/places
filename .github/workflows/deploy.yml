@@ -52,13 +52,20 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - uses: appleboy/ssh-action@v1.0.3
+      env:
+        JWT_SECRET_KEY: ${{ JWT_SECRET_KEY }}
+        POSTGRES_USER: ${{ POSTGRES_USER }}
+        POSTGRES_PASSWORD: ${{ POSTGRES_PASSWORD }}
+        POSTGRES_DB: ${{ POSTGRES_DB }}
+        DATABASE_URL: ${{ DATABASE_URL }}
       with:
         host: ${{ secrets.SSH_HOST }}
         username: ${{ secrets.SSH_USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         port: 22
+        envs: JWT_SECRET_KEY,POSTGRES_USER,POSTGRES_PASSWORD,POSTGRES_DB,DATABASE_URL
         script: |
           rm -rf places
           git clone https://github.com/asokolkov/places.git
           cd places
-          sudo docker compose --env-file ${{ secrets.DOCKER_ENV }} up
+          sudo docker compose up
