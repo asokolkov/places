@@ -51,15 +51,16 @@ jobs:
     if: github.ref_name == 'main'
     steps:
     - uses: actions/checkout@v2
-    - shell: bash
-      env:
-          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          SSH_HOST: ${{ secrets.SSH_HOST }}
-          SSH_USER: ${{ secrets.SSH_USER }}
-      run: |
-        mkdir -p ~/.ssh
-        chmod 700 ~/.ssh
-        ssh-keyscan $SSH_HOST >> ~/.ssh/known_hosts
-        cat $SSH_PRIVATE_KEY > ~/.ssh/id_ed25519
-        chmod 0600 ~/.ssh/id_ed25519
-        ssh -i ~/.ssh/id_ed25519 $SSH_USER@$SSH_HOST "echo 1"
+    - uses: astappiev/docker-compose-remote-action@master
+      with:
+        ssh_host: ${{ secrets.SSH_HOST }}
+        ssh_user: ${{ secrets.SSH_USER }}
+        ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+        ssh_host_public_key: ${{ secrets.SSH_PUBLIC_KEYS }}
+        docker_env:
+          - DEBUG=${{ secrets.DEBUG }}
+          - DATABASE_URL=${{ secrets.DATABASE_URL }}
+          - JWT_SECRET_KEY=${{ secrets.JWT_SECRET_KEY }}
+          - POSTGRES_USER=${{ secrets.POSTGRES_USER }}
+          - POSTGRES_PASSWORD=${{ secrets.POSTGRES_PASSWORD }}
+          - POSTGRES_DB=${{ secrets.POSTGRES_DB }}
