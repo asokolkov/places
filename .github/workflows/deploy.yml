@@ -46,6 +46,6 @@ jobs:
 
   te:
     runs-on: ubuntu-latest
-    if: github.ref_name == 'main'
+    if: github.ref_name == 'maiaan'
     steps:
     - run: echo 1
