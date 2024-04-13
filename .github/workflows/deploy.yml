@@ -55,6 +55,6 @@ jobs:
         mkdir -p ~/.ssh
         chmod 700 ~/.ssh
         ssh-keyscan ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
-        cat ${{ SSH_PRIVATE_KEY }} > ~/.ssh/id_ed25519
+        cat ${{ secrets.SSH_PRIVATE_KEY }} > ~/.ssh/id_ed25519
         chmod 0600 ~/.ssh/id_ed25519
-        ssh -i ~/.ssh/id_ed25519 ${{ SSH_ADDRESS }} "echo 1"
+        ssh -i ~/.ssh/id_ed25519 ${{ secrets.SSH_ADDRESS }} "echo 1"
