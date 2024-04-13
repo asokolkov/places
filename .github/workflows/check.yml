@@ -8,7 +8,12 @@ jobs:
         uses: actions/checkout@v2
       - name: Lint
         uses: wearerequired/lint-action@v2.3.0
-        working-directory: ./places_client
+        with:
+          eslint: true
+          prettier: true
+          eslint_dir: ./places_client
+          prettier_dir: ./places_client
+
 
   lint-server:
     runs-on: ubuntu-latest
