@@ -46,6 +46,7 @@ jobs:
 
   te:
     runs-on: ubuntu-latest
-    if: github.ref_name == 'maiaan'
+    needs: [test-server]
+    if: github.ref_name == 'main'
     steps:
     - run: echo 1
