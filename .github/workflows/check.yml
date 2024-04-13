@@ -6,30 +6,27 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Open client
-        run: cd places_client
       - name: Lint
         uses: wearerequired/lint-action@v2.3.0
+        working-directory: ./places_client
 
   lint-server:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Open server
-        run: |
-          cd places_server
-          ls
       - name: Set up Python 3.12
         uses: actions/setup-python@v2
         with:
           python-version: 3.12
       - name: Install dependencies
         run: |
-          ls
           pip install poetry
           poetry install --with dev
+        working-directory: ./places_server
       - name: Activate virtual environment
         run: source $(poetry env info --path)/bin/activate
+        working-directory: ./places_server
       - name: Lint
         run: make lint
+        working-directory: ./places_server
