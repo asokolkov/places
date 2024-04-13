@@ -5,7 +5,6 @@ from sqlalchemy.ext.asyncio import AsyncEngine
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy.ext.asyncio import create_async_engine
 
-from places_server.database.entities import Base
 from places_server.configs import settings
 
 
