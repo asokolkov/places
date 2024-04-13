@@ -46,8 +46,6 @@ jobs:
 
   te:
     runs-on: ubuntu-latest
-    if: github.ref_name == "main"
+    if: github.ref_name == 'main'
     steps:
-    - name: Install dependencies
-      run: |
-        echo 1
+    - run: echo 1
