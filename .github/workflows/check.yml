@@ -1,0 +1,16 @@
+name: Check
+on: push
+jobs:
+ lint:
+    runs-on: ubuntu-latest
+    container:
+      image: node:18-alpine
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Open client
+        run: cd places_client
+      - name: Install dependencies
+        run: npm install
+      - name: Run lint
+        run: npm run lint
