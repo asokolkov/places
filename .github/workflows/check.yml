@@ -2,7 +2,7 @@ name: Check
 on: push
 jobs:
  lint:
-    runs-on: node:18-alpine
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
