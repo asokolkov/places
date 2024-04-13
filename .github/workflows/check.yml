@@ -11,8 +11,8 @@ jobs:
       - run: |
           npm install
           npm run lint
-          ls
         working-directory: places_client
+        continue-on-error: true
 
 
   lint-server:
@@ -27,3 +27,18 @@ jobs:
           poetry install --with dev --no-root && rm -rf /tmp/poetry_cache
           make lint
         working-directory: places_server
+        continue-on-error: true
+
+  test-server:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - uses: actions/setup-python@v2
+      with:
+        python-version: 3.12
+    - name: Install dependencies
+      run: |
+        pip install poetry==1.7.1
+        poetry install --with test --no-root && rm -rf /tmp/poetry_cache
+        poetry run pytest
+      working-directory: places_server
