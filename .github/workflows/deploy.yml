@@ -51,10 +51,10 @@ jobs:
     if: github.ref_name == 'main'
     steps:
     - uses: actions/checkout@v2
-    - uses: astappiev/docker-compose-remote-action@master
+    - uses: appleboy/ssh-action@v1.0.3
       with:
-        ssh_host: ${{ secrets.SSH_HOST }}
-        ssh_user: ${{ secrets.SSH_USER }}
-        ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
-        ssh_host_public_key: ${{ secrets.SSH_PUBLIC_KEYS }}
-        docker_env: ${{ secrets.DOCKER_ENV }}
+        host: ${{ secrets.SSH_HOST }}
+        username: ${{ secrets.SSH_USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        port: 22
+        script: echo 1
