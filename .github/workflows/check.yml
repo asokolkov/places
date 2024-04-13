@@ -4,7 +4,7 @@ jobs:
   lint-client:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v2
       - name: Open client
         run: cd places_client
@@ -14,33 +14,18 @@ jobs:
   lint-server:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v2
-      - name: Open server
-        run: cd places_server
-      - name: Set up python
-        id: setup-python
-        uses: actions/setup-python@v5
+      - name: Set up Python 3.12
+        uses: actions/setup-python@v2
         with:
-          python-version: '3.12'
-      - name: Install Poetry
-        uses: snok/install-poetry@v1
-        with:
-          virtualenvs-create: true
-          virtualenvs-in-project: true
-          installer-parallel: true
-      - name: Load cached venv
-        id: cached-poetry-dependencies
-        uses: actions/cache@v3
-        with:
-          path: .venv
-          key: venv-${{ runner.os }}-${{ steps.setup-python.outputs.python-version }}-${{ hashFiles('**/poetry.lock') }}
+          python-version: 3.12
       - name: Install dependencies
-        if: steps.cached-poetry-dependencies.outputs.cache-hit != 'true'
-        run: poetry install --with dev --no-interaction --no-root
-      - name: Lint
         run: |
-          source .venv/bin/activate
-          poetry run ruff format .
-          poetry run ruff check .
-          poetry run mypy .
+          pip install poetry
+          poetry install --with dev
+      - name: Activate virtual environment
+        run: |
+          source $(poetry env info --path)/bin/activate
+      - name: Lint
+        run: make lint
