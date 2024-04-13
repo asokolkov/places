@@ -1,7 +1,7 @@
 name: Check
 on: push
 jobs:
- lint:
+  lint-client:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -10,4 +10,21 @@ jobs:
         run: cd places_client
       - name: Lint
         uses: wearerequired/lint-action@v2.3.0
-            
+
+  lint-server:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Open server
+        run: cd places_server
+      - name: Install Poetry
+        uses: snok/install-poetry@v1
+      - name: Install dependencies
+        run: poetry install --with test
+      - name: Lint
+        run: |
+          source `poetry env info --path`/bin/activate
+          poetry run ruff format .
+          poetry run ruff check .
+          poetry run mypy .
