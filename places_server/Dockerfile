@@ -22,6 +22,8 @@ ENV VIRTUAL_ENV=/home/.venv \
 
 COPY --from=build ${VIRTUAL_ENV} ${VIRTUAL_ENV}
 
+RUN $DATABASE_URL
+
 WORKDIR /home
 
 COPY places_server ./places_server
