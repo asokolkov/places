@@ -1,12 +1,21 @@
+from contextlib import asynccontextmanager
+
 import uvicorn
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from places_server.app.api.api import api_router
+from places_server.app.api.v1.dependencies import database
 from places_server.configs import settings
 
 
-app = FastAPI(title=settings.APP_NAME)
+@asynccontextmanager
+async def lifespan(_: FastAPI):
+    await database.create_tables()
+    yield
+
+
+app = FastAPI(title=settings.APP_NAME, lifespan=lifespan)
 
 app.add_middleware(
     CORSMiddleware,

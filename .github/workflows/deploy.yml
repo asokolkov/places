@@ -50,22 +50,34 @@ jobs:
     # needs: [test-server, lint-client]
     if: github.ref_name == 'main'
     steps:
-    - uses: actions/checkout@v2
-    - uses: appleboy/ssh-action@v1.0.3
-      env:
-        JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
-        POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-        POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
-        POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
-        DATABASE_URL: ${{ secrets.DATABASE_URL }}
-      with:
-        host: ${{ secrets.SSH_HOST }}
-        username: ${{ secrets.SSH_USER }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
-        port: 22
-        envs: JWT_SECRET_KEY,POSTGRES_USER,POSTGRES_PASSWORD,POSTGRES_DB,DATABASE_URL
-        script: |
-          rm -rf places
-          git clone https://github.com/asokolkov/places.git
-          cd places
-          sudo docker compose up -d
+      - uses: actions/checkout@v2
+      - uses: appleboy/ssh-action@v1.0.3
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: |
+            whoami
+            echo ${{ secrets.DOCKER_ENV }}
+      
+      
+        # env:
+        # DEBUG: ${{ secrets.DEBUG }}
+        # JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
+        # DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        # POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+        # POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+        # POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+      
+        # with:
+        # host: ${{ secrets.SSH_HOST }}
+        # username: ${{ secrets.SSH_USER }}
+        # key: ${{ secrets.SSH_PRIVATE_KEY }}
+        # port: 22
+        # envs: JWT_SECRET_KEY,POSTGRES_USER,POSTGRES_PASSWORD,POSTGRES_DB,DATABASE_URL
+        # script: |
+        #   rm -rf places
+        #   git clone https://github.com/asokolkov/places.git
+        #   cd places
+        #   sudo docker compose up -d
