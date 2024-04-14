@@ -61,7 +61,12 @@ jobs:
             rm -rf places
             git clone https://github.com/asokolkov/places.git
             cd places
-            sudo docker system prune -a --force
+            sudo docker container rm places-client --force
+            sudo docker container rm places-server --force
+            sudo docker container rm places-db --force
+            sudo docker image rm places-client --force
+            sudo docker image rm places-server --force
+            sudo docker image rm postgres --force
             sudo docker volume rm places_postgres-data
             echo "${{ secrets.DOCKER_ENV }}" > .env
             sudo docker compose --env-file ./.env up -d
