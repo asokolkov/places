@@ -6,6 +6,9 @@ services:
       context: ./places_client
     ports:
       - "8100:8100"
+    environment:
+      - ORIGIN=${ORIGIN:-http://localhost:8100}
+      - PORT=${PORT:-8100}
     restart: unless-stopped
     depends_on:
       - places-server
