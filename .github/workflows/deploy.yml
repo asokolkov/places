@@ -63,4 +63,5 @@ jobs:
             cd places
             sudo docker system prune -a --force
             sudo docker volume rm places_postgres-data
-            sudo docker compose --env-file <(echo "${{ secrets.DOCKER_ENV }}") up -d
+            echo "${{ secrets.DOCKER_ENV }}" > .env
+            sudo docker compose --env-file ./.env up -d
