@@ -27,7 +27,5 @@ RUN $DATABASE_URL
 WORKDIR /home
 
 COPY places_server ./places_server
-COPY migrations ./migrations
-COPY alembic.ini .
 
 ENTRYPOINT ["python", "-m", "places_server.main"]
