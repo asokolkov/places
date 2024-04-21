@@ -30,8 +30,14 @@ export async function getPlacelistsByContent(content: string) {
 
     return await axios
         .get(url, configs)
-        .then((response) => response.data as PlacelistsList)
-        .catch(() => ({ placelists: [] } as PlacelistsList));
+        .then((response) => {
+            console.log(response);
+            return response.data as PlacelistsList;
+        })
+        .catch((e) => {
+            console.log(e);
+            return { placelists: [] } as PlacelistsList;
+        });
 }
 
 export async function getPlacelist(id: string) {

@@ -43,7 +43,7 @@ class PlacelistsRepository(AbstractPlacelistsRepository):
 
     async def get_by_content(self, session: AsyncSession, content: str) -> list[PlacelistEntity]:
         statement = (
-            select(PlacelistEntity).options(selectinload(PlacelistEntity.author)).where(PlacelistEntity.name == content)
+            select(PlacelistEntity).options(selectinload(PlacelistEntity.author)).where(PlacelistEntity.name.ilike(f"%{content}%"))
         )
         result = await session.scalars(statement)
         return list(result.all())

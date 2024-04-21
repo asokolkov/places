@@ -5,6 +5,15 @@ import type { PlacelistUpdate } from "$lib/models/placelists";
 import type { PlaceCreate } from "$lib/models/places";
 import { redirect } from "@sveltejs/kit";
 
+export async function load({ parent, params }) {
+    const parentData = await parent();
+    return {
+        ...parentData,
+        placelistId: params.id
+    };
+}
+
+
 export const actions = {
     async default({ request, cookies, params }) {
         const formData = Object.fromEntries(await request.formData());

@@ -1,7 +1,6 @@
 <script lang="ts">
     import { goto } from "$app/navigation";
     import { page } from "$app/stores";
-    import { createPlacelist } from "$lib/clients/placelistsClient";
     import Block from "$lib/components/Block.svelte";
     import Button from "$lib/components/Button.svelte";
     import Card from "$lib/components/Card.svelte";
@@ -10,7 +9,7 @@
     import IconSave from "$lib/icons/IconSave.svelte";
     import IconShare from "$lib/icons/IconShare.svelte";
     import IconTrash from "$lib/icons/IconTrash.svelte";
-    import type { PlacelistCreate } from "$lib/models/placelists";
+    import type { Placelist } from "$lib/models/placelists";
     import { ButtonType } from "$lib/types";
     import Form from "$lib/components/Form.svelte";
 
@@ -26,10 +25,16 @@
     }
 
     async function onSavePlacelist() {
-        const placelistCreate: PlacelistCreate = { name: data.placelist.name };
-        const placelistCreateResponse = await createPlacelist(placelistCreate, data.token!);
-        if (placelistCreateResponse !== null) {
-            await goto(`/placelists/${placelistCreateResponse.id}`);
+        const response = await fetch(`/placelists`, {
+            method: "POST",
+            body: JSON.stringify({
+                placelist: data.placelist,
+                token: data.token
+            })
+        });
+        const savedPlacelist = await response.json() as Placelist;
+        if (savedPlacelist !== null) {
+            await goto(`/placelists/${savedPlacelist.id}`);
         }
     }
 

@@ -55,7 +55,7 @@ class PlacelistsService(AbstractPlacelistsService):
             compressed_placelists = [
                 PlacelistCompressed.model_validate(placelist, from_attributes=True) for placelist in placelists
             ]
-            return PlacelistsList(placelists=compressed_placelists)
+            return PlacelistsList(placelists=compressed_placelists[:10])
 
     async def get(self, placelist_id: UUID) -> Placelist | None:
         async with self._database.session_maker() as session:
